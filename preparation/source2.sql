@@ -23,6 +23,7 @@ INSERT INTO source2.hotels (id, english, italian, german, htype, lat, long, alt,
        where a."LocationInfo-RegionInfo-Name-de" in ('Vinschgau'));
 
 drop table if exists source2.weather_measurement;
+drop table if exists source2.measurement_types;
 drop table if exists source2.weather_platforms;
 
 CREATE TABLE source2.weather_platforms (
@@ -37,6 +38,17 @@ INSERT INTO source2.weather_platforms (id, "name", pointprojection)
   -- Brenner (has wrong geometry)
   AND id <> 619 );
 
+CREATE TABLE source2.measurement_types (
+	"name" text NOT NULL,
+	"unit" text NOT NULL,
+    "description" text,
+    "statisticalType" text,
+	CONSTRAINT measurement_type_pkey PRIMARY KEY (name)
+);
+
+INSERT INTO source2.measurement_types("name", "unit", "description", "statisticalType")
+(select cname, cunit, "description", rtype from intimev2."type" t  where cname IN ('NOX','Ozono','PM10','umidita_abs','umidita_rel','water-temperature','wind-direction','wind-speed','wind10m_direction','wind10m_speed','temp_aria'));
+
 
 CREATE TABLE source2.weather_measurement (
 	id int8 NOT NULL,
@@ -46,7 +58,8 @@ CREATE TABLE source2.weather_measurement (
 	double_value float8 NOT NULL,
     platform_id int8 NOT NULL,
 	CONSTRAINT measurement_pkey PRIMARY KEY (id),
-    CONSTRAINT fk_measurement_station_id_station_pk FOREIGN KEY (platform_id) REFERENCES source2.weather_platforms (id)
+    CONSTRAINT fk_measurement_station_id_station_pk FOREIGN KEY (platform_id) REFERENCES source2.weather_platforms (id),
+    CONSTRAINT fk_measurement_type FOREIGN KEY ("name") REFERENCES source2.measurement_types ("name")
 );
 
 CREATE INDEX idx_measurement_timestamp ON source2.weather_measurement USING btree ("timestamp" DESC);
