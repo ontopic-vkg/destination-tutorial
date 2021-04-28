@@ -10,10 +10,11 @@ CREATE TABLE source1.hospitality (
     name_de text NOT NULL,
     telephone text not NULL,
     email text NOT NULL,
-    category text NOT NULL,
+    kind text NOT NULL,
     latitude float NOT NULL,
     longitude float NOT NULL,
     altitude float NOT NULL,
+    category text NOT NULL,
     geometryPoint geometry GENERATED ALWAYS AS (
         ST_SetSRID(ST_MakePoint("longitude", "latitude", "altitude"),4326)) STORED, 
     m_id text NOT NULL
@@ -21,8 +22,8 @@ CREATE TABLE source1.hospitality (
 
 -- TODO: FK to municipality
 
-INSERT INTO source1.hospitality (h_id, name_en, name_it, name_de, telephone, email, category, latitude, longitude, altitude, m_id)
-       (select "Id", "AccoDetail-en-Name", "AccoDetail-it-Name", "AccoDetail-de-Name", "AccoDetail-de-Phone", "AccoDetail-de-Email", "AccoTypeId", "Latitude", "Longitude", "Altitude", "LocationInfo-MunicipalityInfo-Id"
+INSERT INTO source1.hospitality (h_id, name_en, name_it, name_de, telephone, email, kind, latitude, longitude, altitude, category, m_id)
+       (select "Id", "AccoDetail-en-Name", "AccoDetail-it-Name", "AccoDetail-de-Name", "AccoDetail-de-Phone", "AccoDetail-de-Email", "AccoTypeId", "Latitude", "Longitude", "Altitude", "AccoCategoryId", "LocationInfo-MunicipalityInfo-Id"
        FROM v_accommodationsopen
        where "LocationInfo-RegionInfo-Name-de" not in ('Vinschgau'));
 
