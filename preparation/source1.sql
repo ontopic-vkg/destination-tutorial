@@ -20,8 +20,6 @@ CREATE TABLE source1.hospitality (
     m_id text NOT NULL
 );
 
--- TODO: FK to municipality
-
 INSERT INTO source1.hospitality (h_id, name_en, name_it, name_de, telephone, email, kind, latitude, longitude, altitude, category, m_id)
        (select "Id", "AccoDetail-en-Name", "AccoDetail-it-Name", "AccoDetail-de-Name", "AccoDetail-de-Phone", "AccoDetail-de-Email", "AccoTypeId", "Latitude", "Longitude", "Altitude", "AccoCategoryId", "LocationInfo-MunicipalityInfo-Id"
        FROM v_accommodationsopen
@@ -41,6 +39,8 @@ CREATE TABLE source1.municipalities(
     latitude float8 NOT NULL,
     longitude float8 NOT NULL,
     altitude float8 NOT NULL,
+    geometryPoint geometry GENERATED ALWAYS AS (
+        ST_SetSRID(ST_MakePoint("longitude", "latitude", "altitude"),4326)) STORED,
     UNIQUE(istat)
     );
 
