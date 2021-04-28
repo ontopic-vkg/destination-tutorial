@@ -22,6 +22,7 @@ INSERT INTO source2.hotels (id, english, italian, german, htype, lat, long, alt,
        FROM v_accommodationsopen a join v_municipalitiesopen m on a."LocationInfo-MunicipalityInfo-Id" = m."Id"
        where a."LocationInfo-RegionInfo-Name-de" in ('Vinschgau'));
 
+drop table if exists source2.weather_measurement;
 drop table if exists source2.weather_platforms;
 
 CREATE TABLE source2.weather_platforms (
@@ -32,10 +33,10 @@ CREATE TABLE source2.weather_platforms (
 );
 
 INSERT INTO source2.weather_platforms (id, "name", pointprojection)
-  (SELECT id, "name", pointprojection FROM intimev2.station WHERE stationtype='MeteoStation');
+  (SELECT id, "name", pointprojection FROM intimev2.station WHERE stationtype='MeteoStation' 
+  -- Brenner (has wrong geometry)
+  AND id <> 619 );
 
-
-drop table if exists source2.weather_measurement;
 
 CREATE TABLE source2.weather_measurement (
 	id int8 NOT NULL,
@@ -54,4 +55,6 @@ INSERT INTO source2.weather_measurement (id, "period", "timestamp", "name", "dou
  (SELECT m.id, m."period", m."timestamp", t.cname, double_value, station_id 
  FROM intimev2.measurement m, intimev2.station s, intimev2."type" t  
  WHERE m.station_id = s.id and s.stationtype='MeteoStation' and m.type_id = t.id 
+       -- Brenner (has wrong geometry)
+       and s.id <> 619 
        and cname IN ('NOX','Ozono','PM10','umidita_abs','umidita_rel','water-temperature','wind-direction','wind-speed','wind10m_direction','wind10m_speed','temp_aria'));
