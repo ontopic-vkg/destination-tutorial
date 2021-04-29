@@ -53,24 +53,28 @@ ADD CONSTRAINT fk_hospitality
 FOREIGN KEY (m_id) 
 REFERENCES source1.municipalities (m_id);
 
-
+drop table if exists source1.rooms;
 
 CREATE TABLE source1.rooms (
     r_id text PRIMARY KEY,
-    name text NOT NULL,
-    numberOfUnits integer,
-    type text NOT NULL,
+    name_en text NOT NULL,
+    name_de text NOT NULL,
+    name_it text NOT NULL,    
+    roomUnits integer,
+    r_type text NOT NULL,
     maximumGuest integer,
-    description-it varying(255),
-    description-de varying(255),
-    h_id text NOT NULL,
-    CONSTRAINT fk_h_id
-        FOREIGN KEY (h_id)
-            REFERENCES source1.hospitality (h_id)
+    description_it text,
+    description_de text,
+    h_id text NOT NULL
 );
 
-INSERT INTO source1.rooms (r_id, name, numberOfUnits, type, maximumGuest, description-it, description-de, h_id)
-       SELECT (Id, AccoRoomDetail-en-Name, RoomQuantity, Roomtype, "Roommax", AccoRoomDetail-it-Shortdesc, AccoRoomDetail-de-Shortdesc, A0RID)
-       FROM  accommodationroomsopen
+INSERT INTO source1.rooms (r_id, name_en, name_de, name_it, roomUnits, r_type, maximumGuest, description_it, description_de, h_id)
+       (SELECT "Id", "AccoRoomDetail-en-Name", "AccoRoomDetail-de-Name", "AccoRoomDetail-it-Name", "RoomQuantity", "Roomtype", "Roommax", "AccoRoomDetail-it-Shortdesc", "AccoRoomDetail-de-Shortdesc", "A0RID"
+       FROM  v_accommodationroomsopen 
+       WHERE v_accommodationroomsopen."A0RID" IN (SELECT "Id" FROM v_accommodationsopen WHERE "LocationInfo-RegionInfo-Name-de" NOT IN ('Vinschgau')));
 
-
+       
+ALTER TABLE source1.rooms 
+ADD CONSTRAINT fk_hospitality
+FOREIGN KEY (h_id) 
+REFERENCES source1.hospitality (h_id);
