@@ -7,7 +7,7 @@ CREATE TABLE source2.hotels (
     english text NOT NULL,
     italian text,
     german text NOT NULL,
-    htype text NOT NULL,
+    htype integer,
     lat float NOT NULL,
     long float NOT NULL,
     alt float NOT NULL,
@@ -18,7 +18,9 @@ CREATE TABLE source2.hotels (
 );
 
 INSERT INTO source2.hotels (id, english, italian, german, htype, lat, long, alt, cat, mun)
-       (select a."Id", "AccoDetail-en-Name", "AccoDetail-it-Name", "AccoDetail-de-Name", "AccoTypeId", a."Latitude", a."Longitude", a."Altitude", "AccoCategoryId", m."IstatNumber"::integer 
+       (select a."Id", "AccoDetail-en-Name", "AccoDetail-it-Name", "AccoDetail-de-Name",
+case "AccoTypeId" when 'BedBreakfast' then 1 when 'HotelPension' then 2 when 'Farm' then 3 when 'Camping' then 4 end, 
+a."Latitude", a."Longitude", a."Altitude", "AccoCategoryId", m."IstatNumber"::integer 
        FROM v_accommodationsopen a join v_municipalitiesopen m on a."LocationInfo-MunicipalityInfo-Id" = m."Id"
        where a."LocationInfo-RegionInfo-Name-de" in ('Vinschgau'));
 
@@ -34,9 +36,10 @@ CREATE TABLE source2.weather_platforms (
 );
 
 INSERT INTO source2.weather_platforms (id, "name", pointprojection)
-  (SELECT id, "name", pointprojection FROM intimev2.station WHERE stationtype='MeteoStation' 
+  (SELECT id, "name", pointprojection FROM intimev2.station s WHERE stationtype='MeteoStation' 
   -- Brenner (has wrong geometry)
-  AND id <> 619 );
+  AND s.id <> 619
+  AND exists (SELECT * from intimev2.measurement m where m.station_id = s.id) );
 
 CREATE TABLE source2.measurement_types (
 	"name" text NOT NULL,

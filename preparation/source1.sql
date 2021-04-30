@@ -1,6 +1,6 @@
 CREATE SCHEMA if not exists source1;
 
-
+drop table if exists source1.rooms;
 drop table if exists source1.hospitality;
 
 CREATE TABLE source1.hospitality (
@@ -10,7 +10,7 @@ CREATE TABLE source1.hospitality (
     name_de text NOT NULL,
     telephone text not NULL,
     email text NOT NULL,
-    kind text NOT NULL,
+    h_type text NOT NULL,
     latitude float NOT NULL,
     longitude float NOT NULL,
     altitude float NOT NULL,
@@ -20,7 +20,7 @@ CREATE TABLE source1.hospitality (
     m_id text NOT NULL
 );
 
-INSERT INTO source1.hospitality (h_id, name_en, name_it, name_de, telephone, email, kind, latitude, longitude, altitude, category, m_id)
+INSERT INTO source1.hospitality (h_id, name_en, name_it, name_de, telephone, email, h_type, latitude, longitude, altitude, category, m_id)
        (select "Id", "AccoDetail-en-Name", "AccoDetail-it-Name", "AccoDetail-de-Name", "AccoDetail-de-Phone", "AccoDetail-de-Email", "AccoTypeId", "Latitude", "Longitude", "Altitude", "AccoCategoryId", "LocationInfo-MunicipalityInfo-Id"
        FROM v_accommodationsopen
        where "LocationInfo-RegionInfo-Name-de" not in ('Vinschgau'));
@@ -53,23 +53,21 @@ ADD CONSTRAINT fk_hospitality
 FOREIGN KEY (m_id) 
 REFERENCES source1.municipalities (m_id);
 
-drop table if exists source1.rooms;
-
 CREATE TABLE source1.rooms (
     r_id text PRIMARY KEY,
     name_en text NOT NULL,
     name_de text NOT NULL,
     name_it text NOT NULL,    
-    roomUnits integer,
+    room_units integer,
     r_type text NOT NULL,
-    maximumGuest integer,
-    description_it text,
+    capacity integer,
     description_de text,
+    description_it text,
     h_id text NOT NULL
 );
 
-INSERT INTO source1.rooms (r_id, name_en, name_de, name_it, roomUnits, r_type, maximumGuest, description_it, description_de, h_id)
-       (SELECT "Id", "AccoRoomDetail-en-Name", "AccoRoomDetail-de-Name", "AccoRoomDetail-it-Name", "RoomQuantity", "Roomtype", "Roommax", "AccoRoomDetail-it-Shortdesc", "AccoRoomDetail-de-Shortdesc", "A0RID"
+INSERT INTO source1.rooms (r_id, name_en, name_de, name_it, room_units, r_type, capacity, description_de, description_it, h_id)
+       (SELECT "Id", "AccoRoomDetail-en-Name", "AccoRoomDetail-de-Name", "AccoRoomDetail-it-Name", "RoomQuantity", "Roomtype", "Roommax",  "AccoRoomDetail-de-Shortdesc", "AccoRoomDetail-it-Shortdesc", "A0RID"
        FROM  v_accommodationroomsopen 
        WHERE v_accommodationroomsopen."A0RID" IN (SELECT "Id" FROM v_accommodationsopen WHERE "LocationInfo-RegionInfo-Name-de" NOT IN ('Vinschgau')));
 
