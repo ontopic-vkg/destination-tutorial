@@ -9,5 +9,5 @@ services:
     ports:
       - "${MAPPED_POSTGRES_PORT}:5432"
     environment:
-      - POSTGRES_USER=tourismuser
+      - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres2
