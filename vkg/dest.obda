@@ -14,7 +14,7 @@ schema:		http://schema.org/
 
 [MappingDeclaration] @collection [[
 mappingId	Municipality
-target		:data/municipality/{id} a geo:Feature . 
+target		:data/municipality/{id} a :Municipality . 
 source		SELECT * FROM source1.municipalities
 ]]
 
