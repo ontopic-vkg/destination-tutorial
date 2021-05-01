@@ -197,3 +197,47 @@ WHERE {
   # FILTER (?value >= 20)
 }
 """
+
+
+[[tabGroups.tabs]]
+
+name="Hotels nearby warm water"
+query="""
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX uom: <http://www.opengis.net/def/uom/OGC/1.0/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX qudt-unit: <http://qudt.org/vocab/unit#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?hotelPos ?stationPos ?distance (CONCAT(?hotelName,' (', str(?value), ?unitSuffix, ')') AS ?hotelPosLabel)
+WHERE {
+  ?s a :WeatherStation ;
+     geo:defaultGeometry/geo:asWKT ?stationPos ;
+     sosa:hosts/sosa:madeObservation ?obs .
+
+  ?obs sosa:hasResult ?result ;
+       sosa:observedProperty [ a :WaterTemperature ] .
+
+  ?result qudt:numericValue ?value ;
+          qudt:unit ?unit .
+
+
+  BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', if(?unit = qudt-unit:MeterPerSecond, 'm/s', '')) AS ?unitSuffix)
+  FILTER (?value >= 18)
+
+
+  ?h a schema:Hotel ;
+     schema:name ?hotelName ;
+     geo:defaultGeometry/geo:asWKT ?hotelPos .
+
+  FILTER (langMatches(lang(?hotelName), 'en'))
+  
+
+  BIND(geof:distance(?hotelPos, ?stationPos, uom:metre) AS ?distance)
+ FILTER (?distance < 5000) 
+}
+"""
