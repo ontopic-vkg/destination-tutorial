@@ -1,0 +1,14 @@
+version: "3.4"
+
+services:
+  db:
+    build:
+      context: db/
+    env_file: .env
+    shm_size: 1g
+    restart: unless-stopped
+    ports:
+      - "${MAPPED_POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=tourismuser
+      - POSTGRES_PASSWORD=postgres2
