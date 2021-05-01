@@ -146,5 +146,10 @@ mappingId	Weather observation result degree celius
 target		data:weather/observation/result/{id} qudt:unit qudt-unit:DegreeCelsius . 
 source		select m.id from source3.weather_measurement m, source3.measurement_types t
 			WHERE m.name = t.name and t.unit = '°C'
+
+mappingId	Weather observation result m/s
+target		data:weather/observation/result/{id} qudt:unit qudt-unit:MeterPerSecond . 
+source		select m.id from source3.weather_measurement m, source3.measurement_types t
+			WHERE m.name = t.name and t.unit = 'm/s'
 ]]
 

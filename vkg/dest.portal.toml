@@ -176,7 +176,7 @@ PREFIX schema: <http://schema.org/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX : <http://destination.example.org/ontology/dest#>
 
-SELECT ?pos (CONCAT(?stationName,' (', str(?temperature), ?unitSuffix, ' at ', str(?ts) ,')') AS ?posLabel)
+SELECT ?pos (CONCAT(?stationName,' (', str(?value), ?unitSuffix, ' at ', str(?ts) ,')') AS ?posLabel)
 WHERE {
   ?s a :WeatherStation ;
      schema:name ?stationName ;
@@ -185,14 +185,15 @@ WHERE {
   
   ?obs sosa:hasResult ?result ;
        sosa:resultTime ?ts ;
-       sosa:observedProperty [ a :WaterTemperature ] .
-  ?result qudt:numericValue ?temperature ;
+       sosa:observedProperty [ a 
+          :WaterTemperature 
+          # :WindSpeed
+       ] .
+  ?result qudt:numericValue ?value ;
           qudt:unit ?unit .
   
-  BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', '') AS ?unitSuffix)
+  BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', if(?unit = qudt-unit:MeterPerSecond, 'm/s', '')) AS ?unitSuffix)
   
-#  FILTER (?temperature >= 20)
-}
-
+  # FILTER (?value >= 20)
 }
 """
