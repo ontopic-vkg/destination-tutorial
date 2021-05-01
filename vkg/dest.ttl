@@ -34,6 +34,10 @@ schema:containsPlace rdf:type owl:ObjectProperty .
 schema:geo rdf:type owl:ObjectProperty .
 
 
+###  http://schema.org/occupancy
+schema:occupancy rdf:type owl:ObjectProperty .
+
+
 #################################################################
 #    Data properties
 #################################################################
@@ -54,8 +58,16 @@ schema:latitude rdf:type owl:DatatypeProperty .
 schema:longitude rdf:type owl:DatatypeProperty .
 
 
+###  http://schema.org/maxValue
+schema:maxValue rdf:type owl:DatatypeProperty .
+
+
 ###  http://schema.org/telephone
 schema:telephone rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/unitCode
+schema:unitCode rdf:type owl:DatatypeProperty .
 
 
 #################################################################
