@@ -2,8 +2,7 @@ version: "3.4"
 
 services:
   db:
-    build:
-      context: db/
+    image: ontopicvkg/destination-tutorial-db
     env_file: .env
     shm_size: 1g
     restart: unless-stopped
