@@ -97,3 +97,34 @@ WHERE {
 LIMIT 500
 """
 
+[[tabGroups.tabs]]
+
+name="Biggest lodging businesses"
+query="""
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX schema: <http://schema.org/>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?pos ?bName
+      (SUM(?nb) AS ?countRoom)
+      (SUM(?maxPersons) AS ?countMaxPersons)
+      (CONCAT(?bName, ': ', str(?countRoom), ' accommodations, max ', str(?countMaxPersons), ' guests') AS ?posLabel)
+WHERE {
+  ?b a schema:LodgingBusiness ;
+     schema:name ?bName ;
+     geo:hasGeometry/geo:asWKT ?pos .
+
+  ?r a schema:Accommodation ;
+     schema:containedInPlace ?b ;
+     :numberOfUnits ?nb ;
+     schema:occupancy [ schema:maxValue ?maxOccupancyPerRoom ] .
+
+  BIND (?nb * ?maxOccupancyPerRoom AS ?maxPersons)
+  FILTER (lang(?bName)='en')
+
+}
+GROUP BY ?b ?bName ?pos
+ORDER BY DESC(?countRoom)
+LIMIT 50
+"""
+

@@ -42,6 +42,10 @@ schema:occupancy rdf:type owl:ObjectProperty .
 #    Data properties
 #################################################################
 
+###  http://destination.example.org/ontology/dest#numberOfUnits
+:numberOfUnits rdf:type owl:DatatypeProperty .
+
+
 ###  http://schema.org/elevation
 schema:elevation rdf:type owl:DatatypeProperty .
 

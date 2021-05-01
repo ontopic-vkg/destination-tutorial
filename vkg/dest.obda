@@ -56,7 +56,7 @@ source		SELECT h_id, h_type FROM source1.hospitality
 			WHERE h_type = 'Youth'
 
 mappingId	Source 1 - accommodation
-target		data:source1/rooms/{r_id} a schema:Accommodation ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:description {description_de}@de , {description_it}@it ; schema:containedInPlace data:source1/hospitality/{h_id} ; schema:occupancy data:source1/occupancy/rooms/{r_id} . 
+target		data:source1/rooms/{r_id} a schema:Accommodation ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:description {description_de}@de , {description_it}@it ; :numberOfUnits {room_units} ; schema:containedInPlace data:source1/hospitality/{h_id} ; schema:occupancy data:source1/occupancy/rooms/{r_id} . 
 source		SELECT * FROM source1.rooms
 
 mappingId	Source 1 - room occupancy
