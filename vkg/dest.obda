@@ -15,7 +15,7 @@ schema:		http://schema.org/
 
 [MappingDeclaration] @collection [[
 mappingId	Municipality
-target		data:municipality/{istat} a :Municipality ; schema:name {name_it}@it , {name_de}@de , {name_en}@en . 
+target		data:municipality/{istat} a :Municipality ; schema:name {name_it}@it , {name_de}@de , {name_en}@en ; geo:defaultGeometry data:geo/municipality/{istat} ; schema:geo data:geo/municipality/{istat} . 
 source		SELECT * FROM source1.municipalities
 
 mappingId	Municipality geo
