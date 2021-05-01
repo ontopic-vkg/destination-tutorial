@@ -23,11 +23,11 @@ target		data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude
 source		SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.municipalities
 
 mappingId	Source 1 - lodging business
-target		data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:telephone {telephone} ; schema:email {email} . 
+target		data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:telephone {telephone} ; schema:email {email} ; geo:defaultGeometry data:source1/geo/hospitality/{h_id} ; schema:geo data:source1/geo/hospitality/{h_id} . 
 source		SELECT * FROM source1.hospitality
 
 mappingId	Source 1 - lodging business - municipality
-target		data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} ; schema:geo data:source1/geo/hospitality/{h_id} ; geo:defaultGeometry data:source1/geo/hospitality/{h_id} . 
+target		data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} . 
 source		SELECT h.h_id, m.istat FROM source1.hospitality h, source1.municipalities m 
 			WHERE h.m_id = m.m_id
 
@@ -77,5 +77,28 @@ mappingId	Source 1 - camping pitch
 target		data:source1/rooms/{r_id} a schema:CampingPitch . 
 source		SELECT * FROM source1.rooms
 			WHERE r_type = 'pitch'
+
+mappingId	Source 2 - lodging business
+target		data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/0{mun} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} . 
+source		SELECT * FROM source2.hotels
+
+mappingId	Source 2 lodging business geo
+target		data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ; schema:latitude {lat} ; schema:elevation {alt} ; geo:asWKT {wkt} . 
+source		SELECT *, ST_AsText(geom) AS wkt FROM source2.hotels
+
+mappingId	Source 2 - hotel
+target		data:source2/hotels/{id} a schema:Hotel . 
+source		SELECT * FROM source2.hotels
+			WHERE htype = 2
+
+mappingId	Source 2 - Bed and breakfast
+target		data:source2/hotels/{id} a schema:BedAndBreakfast . 
+source		SELECT * FROM source2.hotels
+			WHERE htype = 1
+
+mappingId	Source 2 - Campground
+target		data:source2/hotels/{id} a schema:Campground . 
+source		SELECT * FROM source2.hotels
+			WHERE htype = 4
 ]]
 
