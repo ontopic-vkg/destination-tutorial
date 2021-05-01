@@ -4,17 +4,20 @@
 @prefix gml: <http://www.opengis.net/ont/gml#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix ssn: <http://www.w3.org/ns/ssn/> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix data: <http://destination.example.org/data/> .
 @prefix obda: <https://w3id.org/obda/vocabulary#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix schema: <http://schema.org/> .
 @base <http://destination.example.org/ontology/dest#> .
 
 <http://destination.example.org/ontology/dest#> rdf:type owl:Ontology ;
                                                  owl:imports <http://www.opengis.net/ont/geosparql> ,
+                                                             ssn: ,
                                                              <https://schema.org/version/latest/schemaorg-current-http.rdf> .
 
 #################################################################

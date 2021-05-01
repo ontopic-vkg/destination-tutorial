@@ -5,12 +5,14 @@ geo:		http://www.opengis.net/ont/geosparql#
 gml:		http://www.opengis.net/ont/gml#
 owl:		http://www.w3.org/2002/07/owl#
 rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+ssn:		http://www.w3.org/ns/ssn/
 xml:		http://www.w3.org/XML/1998/namespace
 xsd:		http://www.w3.org/2001/XMLSchema#
 data:		http://destination.example.org/data/
 obda:		https://w3id.org/obda/vocabulary#
 rdfs:		http://www.w3.org/2000/01/rdf-schema#
 skos:		http://www.w3.org/2004/02/skos/core#
+sosa:		http://www.w3.org/ns/sosa/
 schema:		http://schema.org/
 
 [MappingDeclaration] @collection [[
@@ -28,7 +30,7 @@ source		SELECT * FROM source1.hospitality
 
 mappingId	Source 1 - lodging business - municipality
 target		data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} . 
-source		SELECT h.h_id, m.istat FROM source1.hospitality h, source1.municipalities m 
+source		SELECT h.h_id, m.istat FROM source1.hospitality h, source1.municipalities m
 			WHERE h.m_id = m.m_id
 
 mappingId	Source 1 - lodging business geo
