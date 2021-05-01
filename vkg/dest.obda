@@ -102,5 +102,35 @@ mappingId	Source 2 - Campground
 target		data:source2/hotels/{id} a schema:Campground . 
 source		SELECT * FROM source2.hotels
 			WHERE htype = 4
+
+mappingId	Weather platform
+target		data:weather/platform/{id} a :WeatherStation ; schema:name {name} ; geo:defaultGeometry data:geo/weather/platform/{id} . 
+source		select * from source3.weather_platforms
+
+mappingId	Weather platform geo
+target		data:geo/weather/platform/{id} geo:asWKT {wkt} . 
+source		select *, st_AsText(pointprojection) AS wkt from source3.weather_platforms
+
+mappingId	Weather observation
+target		data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:hasSimpleResult {double_value} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} . 
+source		select * from source3.weather_measurement
+
+mappingId	Weather sensor
+target		data:weather/sensor/{name}/{platform_id} a sosa:Sensor ; sosa:isHostedBy data:weather/platform/{platform_id} . 
+source		select * from source3.weather_measurement
+
+mappingId	Measurement property
+target		data:measurement/property/{name} a sosa:ObservableProperty ; schema:description {description}@it . 
+source		select * from source3.measurement_types
+
+mappingId	Wind Speed
+target		data:measurement/property/{name} a :WindSpeed . 
+source		select * from source3.measurement_types
+			where name = 'wind-speed'
+
+mappingId	Water temperature
+target		data:measurement/property/{name} a :WaterTemperature . 
+source		select * from source3.measurement_types
+			where name = 'water-temperature'
 ]]
 

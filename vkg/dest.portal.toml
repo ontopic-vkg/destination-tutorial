@@ -147,3 +147,43 @@ WHERE {
 }
 LIMIT 500
 """
+
+[[tabGroups.tabs]]
+
+name="Weather station"
+query="""
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?pos ?posLabel
+WHERE {
+  ?s a :WeatherStation ;
+     geo:defaultGeometry/geo:asWKT ?pos ;
+     schema:name ?posLabel .
+}
+"""
+
+[[tabGroups.tabs]]
+
+name="Water temperature"
+query="""
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?pos (CONCAT(?stationName,' (', str(?temperature), ' at ', str(?ts) ,')') AS ?posLabel)
+WHERE {
+  ?s a :WeatherStation ;
+     schema:name ?stationName ;
+     geo:defaultGeometry/geo:asWKT ?pos ;
+     sosa:hosts/sosa:madeObservation ?obs .
+  
+  ?obs sosa:hasSimpleResult ?temperature ;
+       sosa:resultTime ?ts ;
+       sosa:observedProperty [ a :WaterTemperature ] .
+  
+  # FILTER (?temperature >= 20)
+}
+"""
