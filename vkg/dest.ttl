@@ -1,5 +1,6 @@
 @prefix : <http://destination.example.org/ontology/dest#> .
 @prefix sf: <http://www.opengis.net/ont/sf#> .
+@prefix cdt: <http://w3id.org/lindt/custom_datatypes#> .
 @prefix geo: <http://www.opengis.net/ont/geosparql#> .
 @prefix gml: <http://www.opengis.net/ont/gml#> .
 @prefix owl: <http://www.w3.org/2002/07/owl#> .

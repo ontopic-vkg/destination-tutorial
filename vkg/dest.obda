@@ -1,6 +1,7 @@
 [PrefixDeclaration]
 :		http://destination.example.org/ontology/dest#
 sf:		http://www.opengis.net/ont/sf#
+cdt:		http://w3id.org/lindt/custom_datatypes#
 geo:		http://www.opengis.net/ont/geosparql#
 gml:		http://www.opengis.net/ont/gml#
 owl:		http://www.w3.org/2002/07/owl#
@@ -112,7 +113,7 @@ target		data:geo/weather/platform/{id} geo:asWKT {wkt} .
 source		select *, st_AsText(pointprojection) AS wkt from source3.weather_platforms
 
 mappingId	Weather observation
-target		data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:hasSimpleResult {double_value} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} . 
+target		data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} . 
 source		select * from source3.weather_measurement
 
 mappingId	Weather sensor
@@ -132,5 +133,10 @@ mappingId	Water temperature
 target		data:measurement/property/{name} a :WaterTemperature . 
 source		select * from source3.measurement_types
 			where name = 'water-temperature'
+
+mappingId	Weather measure
+target		data:weather/observation/{id} sosa:hasSimpleResult "{double_value} {unit}"^^cdt:ucum . 
+source		select m.id, m.double_value, CASE t.unit when '°C' then 'Cel' end AS unit from source3.weather_measurement m, source3.measurement_types t
+			WHERE m.name = t.name
 ]]
 
