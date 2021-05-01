@@ -1,0 +1,19 @@
+title="Destination tutorial"
+
+[[tabGroups]]
+
+name="Examples"
+
+[[tabGroups.tabs]]
+
+name="Municipality description"
+query="""
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+DESCRIBE ?m 
+WHERE {
+ ?m a :Municipality .
+}
+LIMIT 1
+"""
+

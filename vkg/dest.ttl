@@ -6,6 +6,7 @@
 @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
 @prefix xml: <http://www.w3.org/XML/1998/namespace> .
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix data: <http://destination.example.org/data/> .
 @prefix obda: <https://w3id.org/obda/vocabulary#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
@@ -15,6 +16,22 @@
 <http://destination.example.org/ontology/dest#> rdf:type owl:Ontology ;
                                                  owl:imports <http://www.opengis.net/ont/geosparql> ,
                                                              <https://schema.org/version/latest/schemaorg-current-http.rdf> .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://schema.org/elevation
+schema:elevation rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/latitude
+schema:latitude rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/longitude
+schema:longitude rdf:type owl:DatatypeProperty .
+
 
 #################################################################
 #    Classes
