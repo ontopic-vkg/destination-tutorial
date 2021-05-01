@@ -23,12 +23,36 @@ target		data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude
 source		SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.municipalities
 
 mappingId	Source 1 - lodging business
-target		data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}@en , {name_it}@it , {name_de} ; schema:telephone {telephone} ; schema:email {email} . 
+target		data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:telephone {telephone} ; schema:email {email} . 
 source		SELECT * FROM source1.hospitality
 
 mappingId	Source 1 - lodging business - municipality
-target		data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} . 
+target		data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} ; schema:geo data:source1/geo/hospitality/{h_id} ; geo:defaultGeometry data:source1/geo/hospitality/{h_id} . 
 source		SELECT h.h_id, m.istat FROM source1.hospitality h, source1.municipalities m 
 			WHERE h.m_id = m.m_id
+
+mappingId	Source 1 - lodging business geo
+target		data:source1/geo/hospitality/{h_id} a schema:GeoCoordinates ; schema:longitude {longitude} ; schema:latitude {latitude} ; schema:elevation {altitude} ; geo:asWKT {wkt} . 
+source		SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.hospitality
+
+mappingId	Source 1 - hotel
+target		data:source1/hospitality/{h_id} a schema:Hotel . 
+source		SELECT h_id, h_type FROM source1.hospitality
+			WHERE h_type = 'HotelPension'
+
+mappingId	Source 1 - campground
+target		data:source1/hospitality/{h_id} a schema:Campground . 
+source		SELECT h_id, h_type FROM source1.hospitality
+			WHERE h_type = 'Camping'
+
+mappingId	Source 1 - b2b
+target		data:source1/hospitality/{h_id} a schema:BedAndBreakfast . 
+source		SELECT h_id, h_type FROM source1.hospitality
+			WHERE h_type = 'BedBreakfast'
+
+mappingId	Source 1 - hostel
+target		data:source1/hospitality/{h_id} a schema:Hostel . 
+source		SELECT h_id, h_type FROM source1.hospitality
+			WHERE h_type = 'Youth'
 ]]
 
