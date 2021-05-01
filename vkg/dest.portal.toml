@@ -168,22 +168,31 @@ WHERE {
 
 name="Water temperature"
 query="""
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX qudt-unit: <http://qudt.org/vocab/unit#>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
 PREFIX schema: <http://schema.org/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX : <http://destination.example.org/ontology/dest#>
 
-SELECT ?pos (CONCAT(?stationName,' (', str(?temperature), ' at ', str(?ts) ,')') AS ?posLabel)
+SELECT ?pos (CONCAT(?stationName,' (', str(?temperature), ?unitSuffix, ' at ', str(?ts) ,')') AS ?posLabel)
 WHERE {
   ?s a :WeatherStation ;
      schema:name ?stationName ;
      geo:defaultGeometry/geo:asWKT ?pos ;
      sosa:hosts/sosa:madeObservation ?obs .
   
-  ?obs sosa:hasSimpleResult ?temperature ;
+  ?obs sosa:hasResult ?result ;
        sosa:resultTime ?ts ;
        sosa:observedProperty [ a :WaterTemperature ] .
+  ?result qudt:numericValue ?temperature ;
+          qudt:unit ?unit .
   
-  # FILTER (?temperature >= 20)
+  BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', '') AS ?unitSuffix)
+  
+#  FILTER (?temperature >= 20)
+}
+
 }
 """

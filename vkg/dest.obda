@@ -11,10 +11,14 @@ xml:		http://www.w3.org/XML/1998/namespace
 xsd:		http://www.w3.org/2001/XMLSchema#
 data:		http://destination.example.org/data/
 obda:		https://w3id.org/obda/vocabulary#
+qudt:		http://qudt.org/schema/qudt#
 rdfs:		http://www.w3.org/2000/01/rdf-schema#
 skos:		http://www.w3.org/2004/02/skos/core#
 sosa:		http://www.w3.org/ns/sosa/
 schema:		http://schema.org/
+qudt-1-1:	http://qudt.org/1.1/schema/qudt#
+qudt-unit:	http://qudt.org/vocab/unit#
+qudt-1-1-unit:	http://qudt.org/1.1/vocab/unit#
 
 [MappingDeclaration] @collection [[
 mappingId	Municipality
@@ -113,7 +117,7 @@ target		data:geo/weather/platform/{id} geo:asWKT {wkt} .
 source		select *, st_AsText(pointprojection) AS wkt from source3.weather_platforms
 
 mappingId	Weather observation
-target		data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} . 
+target		data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} ; sosa:hasResult data:weather/observation/result/{id} . 
 source		select * from source3.weather_measurement
 
 mappingId	Weather sensor
@@ -134,9 +138,13 @@ target		data:measurement/property/{name} a :WaterTemperature .
 source		select * from source3.measurement_types
 			where name = 'water-temperature'
 
-mappingId	Weather measure
-target		data:weather/observation/{id} sosa:hasSimpleResult "{double_value} {unit}"^^cdt:ucum . 
-source		select m.id, m.double_value, CASE t.unit when '°C' then 'Cel' end AS unit from source3.weather_measurement m, source3.measurement_types t
-			WHERE m.name = t.name
+mappingId	Weather observation result
+target		data:weather/observation/result/{id} qudt:numericValue {double_value} . 
+source		select * from source3.weather_measurement
+
+mappingId	Weather observation result degree celius
+target		data:weather/observation/result/{id} qudt:unit qudt-unit:DegreeCelsius . 
+source		select m.id from source3.weather_measurement m, source3.measurement_types t
+			WHERE m.name = t.name and t.unit = '°C'
 ]]
 

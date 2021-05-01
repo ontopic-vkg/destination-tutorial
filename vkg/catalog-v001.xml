@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <catalog prefer="public" xmlns="urn:oasis:names:tc:entity:xmlns:xml:catalog">
     <group id="Folder Repository, directory=, recursive=true, Auto-Update=true, version=2" prefer="public" xml:base="">
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="http://www.opengis.net/ont/geosparql" uri="ontologies/geosparql.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="http://www.opengis.net/ont/gml" uri="ontologies/gml.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="http://www.opengis.net/ont/sf" uri="ontologies/sf.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="http://www.w3.org/2004/02/skos/core" uri="ontologies/core.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="http://www.w3.org/ns/sosa/" uri="ontologies/sosa.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="http://www.w3.org/ns/ssn/" uri="ontologies/ssn.owl"/>
-        <uri id="Automatically generated entry, Timestamp=1619888632083" name="https://schema.org/version/latest/schemaorg-current-http.rdf" uri="ontologies/schema.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://qudt.org/1.1/schema/qudt" uri="ontologies/qudt.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://qudt.org/1.1/vocab/unit" uri="ontologies/unit.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.linkedmodel.org/1.0/schema/dtype" uri="ontologies/dtype.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.linkedmodel.org/1.2/schema/vaem" uri="ontologies/vaem.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.opengis.net/ont/geosparql" uri="ontologies/geosparql.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.opengis.net/ont/gml" uri="ontologies/gml.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.opengis.net/ont/sf" uri="ontologies/sf.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.w3.org/2004/02/skos/core" uri="ontologies/core.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.w3.org/ns/sosa/" uri="ontologies/sosa.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="http://www.w3.org/ns/ssn/" uri="ontologies/ssn.owl"/>
+        <uri id="Automatically generated entry, Timestamp=1619896133991" name="https://schema.org/version/latest/schemaorg-current-http.rdf" uri="ontologies/schema.owl"/>
     </group>
 </catalog>

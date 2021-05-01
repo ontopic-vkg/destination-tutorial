@@ -10,14 +10,20 @@
 @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 @prefix data: <http://destination.example.org/data/> .
 @prefix obda: <https://w3id.org/obda/vocabulary#> .
+@prefix qudt: <http://qudt.org/schema/qudt#> .
 @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
 @prefix skos: <http://www.w3.org/2004/02/skos/core#> .
 @prefix sosa: <http://www.w3.org/ns/sosa/> .
 @prefix schema: <http://schema.org/> .
+@prefix qudt-1-1: <http://qudt.org/1.1/schema/qudt#> .
+@prefix qudt-unit: <http://qudt.org/vocab/unit#> .
+@prefix qudt-1-1-unit: <http://qudt.org/1.1/vocab/unit#> .
 @base <http://destination.example.org/ontology/dest#> .
 
 <http://destination.example.org/ontology/dest#> rdf:type owl:Ontology ;
-                                                 owl:imports <http://www.opengis.net/ont/geosparql> ,
+                                                 owl:imports <http://qudt.org/1.1/schema/qudt> ,
+                                                             <http://qudt.org/1.1/vocab/unit> ,
+                                                             <http://www.opengis.net/ont/geosparql> ,
                                                              ssn: ,
                                                              <https://schema.org/version/latest/schemaorg-current-http.rdf> .
 
