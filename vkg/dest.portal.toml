@@ -38,3 +38,25 @@ WHERE {
 }
 """
 
+[[tabGroups.tabs]]
+
+name="Places by municipality"
+query="""
+PREFIX : <http://destination.example.org/ontology/dest#>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+SELECT ?munName ?placeName
+WHERE {
+  ?m a :Municipality ; 
+     schema:name ?munName ;
+     schema:containsPlace ?place .
+  
+  ?place schema:name ?placeName .
+  
+  FILTER(langMatches(lang(?munName), 'en') && langMatches(lang(?placeName), 'en'))
+  
+}
+LIMIT 100
+"""
+

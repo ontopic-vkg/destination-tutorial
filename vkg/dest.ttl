@@ -21,6 +21,15 @@
 #    Object Properties
 #################################################################
 
+###  http://schema.org/containedInPlace
+schema:containedInPlace rdf:type owl:ObjectProperty ;
+                        owl:inverseOf schema:containsPlace .
+
+
+###  http://schema.org/containsPlace
+schema:containsPlace rdf:type owl:ObjectProperty .
+
+
 ###  http://schema.org/geo
 schema:geo rdf:type owl:ObjectProperty .
 
@@ -33,12 +42,20 @@ schema:geo rdf:type owl:ObjectProperty .
 schema:elevation rdf:type owl:DatatypeProperty .
 
 
+###  http://schema.org/email
+schema:email rdf:type owl:DatatypeProperty .
+
+
 ###  http://schema.org/latitude
 schema:latitude rdf:type owl:DatatypeProperty .
 
 
 ###  http://schema.org/longitude
 schema:longitude rdf:type owl:DatatypeProperty .
+
+
+###  http://schema.org/telephone
+schema:telephone rdf:type owl:DatatypeProperty .
 
 
 #################################################################

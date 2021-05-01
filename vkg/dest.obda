@@ -21,5 +21,14 @@ source		SELECT * FROM source1.municipalities
 mappingId	Municipality geo
 target		data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude {longitude} ; schema:latitude {latitude} ; schema:elevation {altitude} ; geo:asWKT {wkt} . 
 source		SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.municipalities
+
+mappingId	Source 1 - lodging business
+target		data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}@en , {name_it}@it , {name_de} ; schema:telephone {telephone} ; schema:email {email} . 
+source		SELECT * FROM source1.hospitality
+
+mappingId	Source 1 - lodging business - municipality
+target		data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} . 
+source		SELECT h.h_id, m.istat FROM source1.hospitality h, source1.municipalities m 
+			WHERE h.m_id = m.m_id
 ]]
 
