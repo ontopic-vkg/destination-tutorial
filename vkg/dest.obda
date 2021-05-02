@@ -139,7 +139,7 @@ source		select * from source3.measurement_types
 			where name = 'water-temperature'
 
 mappingId	Weather observation result
-target		data:weather/observation/result/{id} qudt:numericValue {double_value} . 
+target		data:weather/observation/result/{id} a sosa:Result ; qudt:numericValue {double_value} . 
 source		select * from source3.weather_measurement
 
 mappingId	Weather observation result degree celius
