@@ -67,11 +67,11 @@ In this tutorial, the ontology and the SPARQL queries are already provided. We w
 
 For tables in the schemas `source1` and `source2`:
 
-<img src="diagrams/lodging.png" width="700"/>
+<img src="diagrams/lodging.png" width="800"/>
 
 For tables in the schema `source3`:
 
-<img src="diagrams/weather.png" width="500"/>
+<img src="diagrams/weather.png" width="570"/>
 
 The initial mapping includes already an entry describing municipalities.
 
