@@ -1,0 +1,40 @@
+version: "3.4"
+
+services:
+  db:
+    image: ontopicvkg/destination-tutorial-db
+    env_file: .env
+    shm_size: 1g
+    restart: unless-stopped
+    ports:
+      - "${MAPPED_POSTGRES_PORT}:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres2
+  ontop:
+    image: ontop/ontop-endpoint:4.1.0
+    env_file: .env
+    restart: unless-stopped
+    environment:
+      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/dest-solution.ttl
+      ONTOP_XML_CATALOG_FILE: /opt/ontop/input/catalog-v001.xml
+      ONTOP_MAPPING_FILE: /opt/ontop/input/dest-solution.obda
+      ONTOP_PROPERTIES_FILE: /opt/ontop/input/dest.docker.properties
+      ONTOP_PORTAL_FILE: /opt/ontop/input/dest.portal.toml
+      ONTOP_CORS_ALLOWED_ORIGINS: "*"
+      ONTOP_DEV_MODE: "true"
+    volumes:
+      - ./vkg:/opt/ontop/input
+      - ./jdbc:/opt/ontop/jdbc
+      - ./wait-for-it:/opt/wait-for-it
+    entrypoint:
+        [
+          "/opt/wait-for-it/wait-for-it.sh",
+          "db:5432",
+          "--timeout=0",
+          "--strict",
+          "--",
+          "/opt/ontop/entrypoint.sh",
+        ]
+    ports:
+      - "${SERVER_PORT}:8080"

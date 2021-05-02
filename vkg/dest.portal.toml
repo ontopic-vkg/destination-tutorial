@@ -213,7 +213,7 @@ PREFIX schema: <http://schema.org/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX : <http://destination.example.org/ontology/dest#>
 
-SELECT ?hotelPos ?stationPos ?distance (CONCAT(?hotelName,' (', str(?value), ?unitSuffix, ')') AS ?hotelPosLabel)
+SELECT ?hotelPos ?stationPos ?distance (CONCAT(?hotelName,' (', str(?value), ?unitSuffix, ')') AS ?hotelPosLabel) ("chlorophyll,0.5" AS ?stationPosColor)
 WHERE {
   ?s a :WeatherStation ;
      geo:defaultGeometry/geo:asWKT ?stationPos ;
