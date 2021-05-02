@@ -26,7 +26,7 @@ target		data:municipality/{istat} a :Municipality ; schema:name {name_it}@it , {
 source		SELECT * FROM source1.municipalities
 
 mappingId	Municipality geo
-target		data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude {longitude} ; schema:latitude {latitude} ; schema:elevation {altitude} ; geo:asWKT {wkt} . 
+target		data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude {longitude} ; schema:latitude {latitude} ; schema:elevation {altitude} ; geo:asWKT {wkt}^^geo:wktLiteral . 
 source		SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.municipalities
 
 mappingId	Source 1 - lodging business
@@ -39,7 +39,7 @@ source		SELECT h.h_id, m.istat FROM source1.hospitality h, source1.municipalitie
 			WHERE h.m_id = m.m_id
 
 mappingId	Source 1 - lodging business geo
-target		data:source1/geo/hospitality/{h_id} a schema:GeoCoordinates ; schema:longitude {longitude} ; schema:latitude {latitude} ; schema:elevation {altitude} ; geo:asWKT {wkt} . 
+target		data:source1/geo/hospitality/{h_id} a schema:GeoCoordinates ; schema:longitude {longitude} ; schema:latitude {latitude} ; schema:elevation {altitude} ; geo:asWKT {wkt}^^geo:wktLiteral . 
 source		SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.hospitality
 
 mappingId	Source 1 - hotel
@@ -90,7 +90,7 @@ target		data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english
 source		SELECT * FROM source2.hotels
 
 mappingId	Source 2 lodging business geo
-target		data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ; schema:latitude {lat} ; schema:elevation {alt} ; geo:asWKT {wkt} . 
+target		data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ; schema:latitude {lat} ; schema:elevation {alt} ; geo:asWKT {wkt}^^geo:wktLiteral . 
 source		SELECT *, ST_AsText(geom) AS wkt FROM source2.hotels
 
 mappingId	Source 2 - hotel
@@ -113,7 +113,7 @@ target		data:weather/platform/{id} a :WeatherStation ; schema:name {name} ; geo:
 source		select * from source3.weather_platforms
 
 mappingId	Weather platform geo
-target		data:geo/weather/platform/{id} geo:asWKT {wkt} . 
+target		data:geo/weather/platform/{id} geo:asWKT {wkt}^^geo:wktLiteral . 
 source		select *, st_AsText(pointprojection) AS wkt from source3.weather_platforms
 
 mappingId	Weather observation
