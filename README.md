@@ -79,14 +79,14 @@ The initial mapping includes already an entry describing municipalities.
  1. Map the municipality geometries
  2. Map the names, telephone, email and the main class of `source1` lodging businesses
  3. Map these lodging businesses to municipalities
- 4. Map their geonetries
+ 4. Map their geometries
  5. Map the sub-classes of `source1` lodging businesses
  6. Map the names and descriptions of `source1` accommodations
  7. Map `source1` accommodations to their lodging businesses
  8. Map the names and the main class of `source2` lodging businesses
  9. Map these lodging businesses to municipalities
  10. Map the main class, names and geometries of weather stations.
- 11. Map weather observations.
+ 11. Map weather observations
  12. Map weather sensors
  13. Map weather results
  14. Map the observed properties
@@ -107,6 +107,8 @@ docker-compose -f docker-compose.solution.yml up
 This Docker-compose file uses the mapping `vkg/dest-solution.obda`.
 
 You can see it in Protégé by opening the ontology `vkg/dest-solution.ttl` in a different window.
+
+Example SPARQL queries are available at http://localhost:8080/ .
 
 ## To know more
 
