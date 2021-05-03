@@ -20,11 +20,11 @@ git clone https://github.com/ontopic-vkg/destination-tutorial
 ```
 
 ## Setup Protégé
-* Run Protégé (run.bat on Windows, run.sh on Mac/Linux)
+* Run Protégé (*run.bat* on Windows, *run.sh* on Mac/Linux)
 * Register the PostgreSQL JDBC driver: go to *Preferences -> JDBC Drivers* and add an entry with the following information
    * Description: *postgresql*
    * Class Name: *org.postgresql.Driver*
-   * Driver file (jar): /path/to/destination-tutorial/jdbc/postgresql-42.2.8.jar
+   * Driver file (jar): */path/to/destination-tutorial/jdbc/postgresql-42.2.8.jar*
 * Go to *Reasoner* and select *Ontop 4.1.0* .
 
 ## Start Docker-compose
@@ -36,7 +36,7 @@ git clone https://github.com/ontopic-vkg/destination-tutorial
 docker-compose pull && docker-compose up
 ```
 
-This command starts and initialises the database. Once the database is ready, it also launches the SPARQL endpoint of Ontop at http://localhost:8080 .
+This command starts and initialises the database. Once the database is ready, it launches the SPARQL endpoint of Ontop at http://localhost:8080 .
 
 For this tutorial, we assume that the ports 7777 (used for database) and 8080 (used by Ontop) are free. If you need to use different ports, please edit the file `.env`.
 
@@ -85,7 +85,7 @@ The initial mapping includes already an entry describing municipalities.
  7. Map `source1` accommodations to their lodging businesses
  8. Map the names and the main class of `source2` lodging businesses
  9. Map these lodging businesses to municipalities
- 10. Map the main class, names and geometries of weather stations.
+ 10. Map the main class, names and geometries of weather stations
  11. Map weather observations
  12. Map weather sensors
  13. Map weather results
@@ -112,4 +112,4 @@ Example SPARQL queries are available at http://localhost:8080/ .
 
 ## To know more
 
-Visit https://ontop-vkg.org . This official website provides a more detailled tutorial.
+Visit https://ontop-vkg.org . This official website provides a more detailed tutorial.
