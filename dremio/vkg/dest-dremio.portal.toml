@@ -1,0 +1,205 @@
+title="Destination tutorial"
+
+[[tabGroups]]
+
+name="Examples"
+
+[[tabGroups.tabs]]
+
+name="Municipality description"
+query="""
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+DESCRIBE ?m 
+WHERE {
+ ?m a :Municipality .
+}
+LIMIT 1
+"""
+
+[[tabGroups.tabs]]
+
+name="Municipalities"
+query="""
+PREFIX : <http://destination.example.org/ontology/dest#>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+SELECT ?posLabel ?pos ?elevation 
+WHERE {
+ ?m a :Municipality ; 
+    geo:defaultGeometry/geo:asWKT ?pos ;
+    schema:name ?name ;
+    schema:geo/schema:elevation ?elevation .
+  
+  FILTER(langMatches(lang(?name), 'en'))
+  
+  BIND(CONCAT(?name, " (", str(?elevation), " m)") AS ?posLabel)
+}
+"""
+
+[[tabGroups.tabs]]
+
+name="Places by municipality"
+query="""
+PREFIX : <http://destination.example.org/ontology/dest#>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+
+SELECT ?munName ?placeName
+WHERE {
+  ?m a :Municipality ; 
+     schema:name ?munName ;
+     schema:containsPlace ?place .
+  
+  ?place schema:name ?placeName .
+  
+  FILTER(langMatches(lang(?munName), 'en') && langMatches(lang(?placeName), 'en'))
+  
+}
+LIMIT 100
+"""
+
+[[tabGroups.tabs]]
+
+name="Lodging businesses (limit 500)"
+query="""
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://noi.example.org/ontology/odh#>
+
+SELECT ?h ?pos ?posLabel
+WHERE {
+  ?h a schema:LodgingBusiness ;
+     geo:defaultGeometry/geo:asWKT ?pos ;
+     schema:name ?posLabel .
+  #?h schema:containedInPlace/schema:name "Bozen"@de . # Uncomment for restricting to a municipality
+  FILTER (lang(?posLabel) = 'de')
+}
+LIMIT 500
+"""
+
+[[tabGroups.tabs]]
+
+name="Biggest lodging businesses"
+query="""
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX schema: <http://schema.org/>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?pos ?bName
+      (SUM(?nb) AS ?countRoom)
+      (SUM(?maxPersons) AS ?countMaxPersons)
+      (CONCAT(?bName, ': ', str(?countRoom), ' accommodations, max ', str(?countMaxPersons), ' guests') AS ?posLabel)
+WHERE {
+  ?b a schema:LodgingBusiness ;
+     schema:name ?bName ;
+     geo:hasGeometry/geo:asWKT ?pos .
+
+  ?r a schema:Accommodation ;
+     schema:containedInPlace ?b ;
+     :numberOfUnits ?nb ;
+     schema:occupancy [ schema:maxValue ?maxOccupancyPerRoom ] .
+
+  BIND (?nb * ?maxOccupancyPerRoom AS ?maxPersons)
+  FILTER (lang(?bName)='en')
+
+}
+GROUP BY ?b ?bName ?pos
+ORDER BY DESC(?countRoom)
+LIMIT 50
+"""
+
+[[tabGroups.tabs]]
+
+name="Weather station"
+query="""
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?pos ?posLabel
+WHERE {
+  ?s a :WeatherStation ;
+     geo:defaultGeometry/geo:asWKT ?pos ;
+     schema:name ?posLabel .
+}
+"""
+
+[[tabGroups.tabs]]
+
+name="Water temperature"
+query="""
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX qudt-unit: <http://qudt.org/vocab/unit#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?pos (CONCAT(?stationName,' (', str(?value), ?unitSuffix, ' at ', str(?ts) ,')') AS ?posLabel)
+WHERE {
+  ?s a :WeatherStation ;
+     schema:name ?stationName ;
+     geo:defaultGeometry/geo:asWKT ?pos ;
+     sosa:hosts/sosa:madeObservation ?obs .
+  
+  ?obs sosa:hasResult ?result ;
+       sosa:resultTime ?ts ;
+       sosa:observedProperty [ a 
+          :WaterTemperature 
+          # :WindSpeed
+       ] .
+  ?result qudt:numericValue ?value ;
+          qudt:unit ?unit .
+  
+  BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', if(?unit = qudt-unit:MeterPerSecond, 'm/s', '')) AS ?unitSuffix)
+  
+  # FILTER (?value >= 20)
+}
+"""
+
+
+[[tabGroups.tabs]]
+
+name="Hotels nearby warm water"
+query="""
+PREFIX geof: <http://www.opengis.net/def/function/geosparql/>
+PREFIX uom: <http://www.opengis.net/def/uom/OGC/1.0/>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX qudt: <http://qudt.org/schema/qudt#>
+PREFIX qudt-unit: <http://qudt.org/vocab/unit#>
+PREFIX sosa: <http://www.w3.org/ns/sosa/>
+PREFIX schema: <http://schema.org/>
+PREFIX geo: <http://www.opengis.net/ont/geosparql#>
+PREFIX : <http://destination.example.org/ontology/dest#>
+
+SELECT ?hotelPos ?stationPos ?distance (CONCAT(?hotelName,' (', str(?value), ?unitSuffix, ')') AS ?hotelPosLabel) ("chlorophyll,0.5" AS ?stationPosColor)
+WHERE {
+  ?s a :WeatherStation ;
+     geo:defaultGeometry/geo:asWKT ?stationPos ;
+     sosa:hosts/sosa:madeObservation ?obs .
+
+  ?obs sosa:hasResult ?result ;
+       sosa:observedProperty [ a :WaterTemperature ] .
+
+  ?result qudt:numericValue ?value ;
+          qudt:unit ?unit .
+
+
+  BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', if(?unit = qudt-unit:MeterPerSecond, 'm/s', '')) AS ?unitSuffix)
+  FILTER (?value >= 18)
+
+
+  ?h a schema:Hotel ;
+     schema:name ?hotelName ;
+     geo:defaultGeometry/geo:asWKT ?hotelPos .
+
+  FILTER (langMatches(lang(?hotelName), 'en'))
+  
+
+  BIND(geof:distance(?hotelPos, ?stationPos, uom:metre) AS ?distance)
+ FILTER (?distance < 2000) 
+}
+"""
