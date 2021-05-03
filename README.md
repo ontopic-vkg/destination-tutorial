@@ -75,6 +75,12 @@ For tables in the schema `source3`:
 
 The initial mapping includes already an entry describing municipalities.
 
+### Open the project on Protégé
+
+On Protégé, open (in a new window if requested) the ontology file `vkg/dest.ttl`. Go to the *Ontop Mappings* tab (if you don't see it, enable it in *Windows -> Tabs*) and to the *Mapping manager* sub-tab. One mapping entry called *Municipality* should be visible.
+
+If you click of *File -> Save*, your changes will be saved and the Ontop SPARQL endpoint will be automatically restarted.
+
 ### Proposed sequence
  1. Map the municipality geometries
  2. Map the names, telephone, email and the main class of `source1` lodging businesses
