@@ -108,6 +108,29 @@ target		data:source2/hotels/{id} a schema:Campground .
 source		SELECT * FROM source2.hotels
 			WHERE htype = 4
 
+mappingId	Source 2 lodging business - accommodation
+target		data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_title}@en , {italian_title}@it , {german_title}@de ; schema:description {german_description}@de , {italian_description}@it ; :numberOfUnits {accommodation_units} ; schema:containedInPlace data:source1/hospitality/{hotel} ; schema:occupancy data:source2/occupancy/accommodation/{id} . 
+source		SELECT * FROM source2.accommodation
+
+mappingId	Source 2 - room occupancy
+target		data:source2/occupancy/accommodation/{id} a schema:QuantitativeValue ; schema:maxValue {guest_nb} ; schema:unitCode "C62"^^xsd:string . 
+source		SELECT * FROM source2.accommodation
+
+mappingId	Source 2 - apartment
+target		data:source2/accommodation/{id} a schema:Apartment . 
+source		SELECT * FROM source2.accommodation
+			WHERE acco_type = 2
+
+mappingId	Source 2 - room
+target		data:source2/accommodation/{id} a schema:Room . 
+source		SELECT * FROM source2.accommodation
+			WHERE acco_type = 1
+
+mappingId	Source 2 - camping pitch
+target		data:source2/accommodation/{id} a schema:CampingPitch . 
+source		SELECT * FROM source2.accommodation
+			WHERE acco_type = 3
+
 mappingId	Weather platform
 target		data:weather/platform/{id} a :WeatherStation ; schema:name {name} ; geo:defaultGeometry data:geo/weather/platform/{id} . 
 source		select * from source3.weather_platforms
@@ -152,4 +175,3 @@ target		data:weather/observation/result/{id} qudt:unit qudt-unit:MeterPerSecond 
 source		select m.id from source3.weather_measurement m, source3.measurement_types t
 			WHERE m.name = t.name and t.unit = 'm/s'
 ]]
-
