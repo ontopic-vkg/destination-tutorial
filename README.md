@@ -90,8 +90,10 @@ The column _r_id_ is a primary key.
 The table `source2.hotels` contains the ID, the name _(english, italian, german)_, type _(htype)_, geographical coordinates _(lat, long, alt)_ rating values _(cat)_, municipalities _(mun)_ and the geometrical points _(geom)_ of the lodging business. The table `source2.hotels` contains same attributs as the table `source1.hospitality` with a different schema.   
 
 | id | english  | italian | german | htype | lat | long | alt | cat | mun | geom | 
-| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
-| |  | | | |  | | | | |
+| -- | -------- | ------- | ------ | ----- | --- | ---- | --- | ----| --- | ---- |
+| 001AE4C0FA0781A2CDD3750811DBDAEB |	Apartment Haideblick |	Appartamento Haideblick	App. | Ferienwohnung Haideblick |	1 |	46.766831	 | 10.533657 |	1470.0 |	2suns |	21027 |	POINT Z(10.533657 46.766831 1470) |
+| 0614E1C5699E11D782540020AF71A63E |	House Rosi |	Cafe/Casa Rosi | Cafe Ferienhaus Rosi |	1 |	46.615587	| 10.699991 |	868.0	 | 3suns |	21042 |	POINT Z(10.699991 46.615587 868) |
+| 05287B29094E4B03AD97A5B4B3E66345 |	Sonnenhof	| Sonnenhof |	Sonnenhof|	3|	46.706881	|10.473704|	1730.0|	1flower	|21046	|POINT Z(10.473704 46.706881 1730)|
 
 The column _htype_ is populated with magic numbers (they differ from the table `source1.hospitality`):
 
@@ -107,8 +109,10 @@ The column _id_ is a primary key.
 The table `source2.accommodation` contains same attributs as the table `source1.rooms` with a different schema. 
 
 | id | english_title  | german_title | italian_title | accommodation_units | acco_type | guest_nb | german_description | italian_description | hotel | 
-| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
-| |  | | | |  | | | | 
+| -- | -------------- | ------------ | ------------- | ------------------- | --------- | -------- | -------------------| ------------------- | ------|
+|73F2B6C02A6152C286BFF186D1572DBC |	Apartment Zerminiger |	Ferienwohnung Zerminiger |	Appartamento Zerminiger |	2 | 4 |	Mit einer Wohnfläche von 59 m² bietet die Ferienwohnung Zerminiger ausreichend Platz für 4 Personen. Das Appartement ist nach Süd-Osten ausgerichtet und verfügt über zwei getrennte Schlafzimmer, einer Wohnküche mit gemütlicher Sitzecke, WC mit Dusche sowie zwei Balkonen. |	Con una superficie abitabile di 59 mq, l'appartamento Zerminiger offre spazio sufficiente per ospitare fino a 4 persone. L'appartamento è esposto a sud-est e dispone di due camere da letto separate, una cucina con un accogliente salotto, un bagno con doccia e due balconi. | 	0A99E8B00EBA57956959949D017055FB |
+|7F90B92F9CAA2F653B0F4DAEF5476A67|	Appartment for 2-6 persons	| Ferienwohnung für 2-6 Personen |	Appartamento per 2-6 persone |	2 |	5 |	Großzügig ausgestatete geräumige Wohnung mit zwei getrennten Schlafzimmer und einem direkten Zugang zur Liegewiese/Garten. |	Ben aredate spazio appartamento con due camere da letto  e con un accesso diretto al prato	| 25548AEDD4682E0D809086AD1B28E6F2 |
+| D3B0D75E132711D291A60040055FA744 |	Family room |	Doppelzimmer | Süd A mit Balkon & Talblick	Camera famigliare |	1 |	4 |	WC, Dusche, Balkon, Talblick |	WC, doccia, balcone |	F63F948FEE3E11D191A60040055FA744 |
 
 The column _acco_type_ is populated with magic numbers (they differ from the table `source1.hospitality`):
 
