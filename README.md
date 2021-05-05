@@ -48,10 +48,11 @@ The dataset is composed of the following tables:
 
 The table `source1.municipalities` contains the local ID _(m_id)_, name _(en, it, de)_, ISTAT number,  population, geometrical coordinates _(latitude, longitude, altitude)_ and geometrical points of the municipalities.
  
-| m_id | name_en  | name_en | name_de | IstatNumber | population | latitude | longitude | altitude | geometryPoint | 
-| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
-| |  | | | |  | | | | 
-
+| m_id | IstatNumber | name_en | name_it | name_de | population | latitude | longitude | altitude | geometryPoint | 
+| ---- | ----------- | ------- | ------- | ------- | ---------- | -------- | --------- | ---------| ------------- |
+|A7CA017FF0424503827BCD0E552F4648 |	021069 |	Proves/Proveis |	Proves |	Proveis |	266 |	46.4781 |	11.023 |	1420.0 |	POINT Z(11.023 46.4781 1420) |
+| BB0043517A57498683B2F997B7B68D5F |	021065 |	Ponte Gardena/Waidbruck |	Ponte Gardena |	Waidbruck |	203 |	46.598 |	11.5317 |	470.0 |	POINT Z(11.5317 46.598 470) |
+| 516EF5F9F7794997B874828DBE157E6E |	021036 |	Glorenza/Glurns |	Glorenza |	Glurns |	894 |	46.6711 |	10.5565  |	907.0 |	POINT Z(10.5565 46.6711 907) |
 The column _m_id_ is a primary key.
 
 
@@ -59,11 +60,13 @@ The column _m_id_ is a primary key.
 
 The table `source1.hospitality` contains the local ID _(h_id)_, name _(en ,it ,de)_, telephone number, email, type _(kind)_, geometrical coordinates _(latitude, longitude, altitude)_, geometrical points and the associated municipality ID of the lodging business. 
  
- | h_id | name_en  | name_en | name_de | telephone | kind | latitude | longitude | altitude | geometryPoint | 
-| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
-| |  | | | |  | | | | 
+| h_id | name_en  | name_it | name_de | telephone | email | kind | latitude | longitude | altitude | category | geometryPoint | m_id |
+| ---- | -------- | ------- |  ------ | --------- | ----- | ---- | -------- | ----------| -------- | -------- | ------------- | --------- |
+| ACE81868364111D49F0000105AF76E96 | Apartments Monica | Appartamenti Monica | Appartements Monica | +39 380 4243160 | info@appartements-monica.com | BedBreakfast | 46.9386 | 11.4444 | 1098.0 | 2suns | POINT Z(11.4444 46.9386 1098) | 2B138D40992744BDBD38F56B73F45183 |
+| EFF0FACBA54C11D1AD760020AFF92740 |	Residence Tuberis |	Residence Tuberis |	Residence Tuberis |	+39 0474 678488 |	info@tubris.com |	HotelPension |	46.9191 |	11.9547 |	865.0 |	3stars |	POINT Z(11.9547 46.9191 865) |	6A5FF36917FA48D2B1996B76C7AA8BC6 |
+| 5F74DCC404AAA52B318A12507A1F27F7 |	Camping  Gisser Vitha Hotels |	Camping  Gisser Vitha Hotels |	Camping  Gisser Vitha Hotels |	+39 0474 569605 |	reception@hotelgisser.it |	Camping	| 46.807976 |	11.812105 |	778.0 |	3stars |	POINT Z(11.812105 46.807976 778) |	1E84922B82234EE682A341531E1D1925 |
 
-The column kind is populated with string data types: _Hotel, Hostel, Campground, Bed and Breakfast_.
+The column _kind_ is populated with string data types: _Hotel, Hostel, Campground, Bed and Breakfast_.
 
 The column _h_id_ is a primary key.
 
@@ -72,11 +75,13 @@ The column _h_id_ is a primary key.
 
 Similarly, the table `source1.rooms` contains the room ID, name, number of room unit, maximal number of guests, multilingual descriptions and hospitality ID of the rooms.
 
-| r_id | name_en  | name_en | name_de | roomUnits | type | maximumGuest | description_it | description_de | h_id | 
-| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
-| |  | | | |  | | | | 
+| r_id | name_en  | name_it | name_de | roomUnits | type | maximumGuest | description_de | description_it | h_id | 
+| ---- | -------- | ------- | ------- | --------- | ---- | ------------ | ---------------| -------------- | -------- |
+| E4B47698C5A677584245B6F4E13CCB69 |	Appartement "PANORMASUITE" |	Apartment "Panoramasuite" |	Appartamento "PANORMASUITE" |	1	| apartment	| 4 |	Natursuite mit Schlafempore und traumhaften Blick ins Tal; auch gut geeignet für 3 Erwachsene; sowie Familien |	Suite con area notte al piano superiore e vista mozzafiato sulla valle; adatto per tre adulti o per una famiglia |	32001C4FAA1311D1926F00805A150B0B |
+| AF57632D700A11D3962F00104B421FA8 |	"Crab apple" |	"Zierapfel" |	"Mela selvatica" |	1 |	apartment |	6 |	Wohnraum mit Kochnische, Südbalkon mit Panoramaaussicht, Bad und 2 Schlafzimmern. |	Stanza di soggiorno con cucina, balcone panoramico verso sud, bagno e2 camere da letto con moquette |	E650C0C33DC111D29536004F56000ECA |
+| 65F7D5D3182D4300A42E23D60F836F61 |	apartment Sella for 5-6 people |	Ferienwohnung Sella für 5-6 Personen |	Appartamento Sella per 5-6 persone |	1	| apartment |	6 |	Ferienwohnung 5 Personen |	Appartamento 5 persone |	8DA75A1A0AE743B489948BA98ECA30A9 |
 
-The column type is also populated with string data types: _Room, Appartement, Pitch, Youth_.
+The column _type_ is also populated with string data types: _Room, Appartement, Pitch, Youth_.
 
 The column _r_id_ is a primary key.
 
@@ -205,7 +210,7 @@ data:municipalities/{istat} schema:name {name_it}@it , {name_de}@de , {name_en}@
 data:municipalities/{istat} geo:defaultGeometry data:geo/municipalities/{istat}. 
 data:municipalities/{istat} schema:geo data:geo/municipalities/{istat} . 
 ```
-Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. Then, if an object has associated data properties, they will be defined as you can see in the next mapping. 
+Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. If an object has associated data properties, they will then be defined seperatly as you can see in the next mapping. 
 
 Let us now add the other mapping assertions by clicking on create:
 
