@@ -99,6 +99,7 @@ The column _htype_ is populated with magic numbers (they differ from the table `
 
 - 1 -> BedAndBreakfast
 - 2 -> Hotel
+- 3 -> Hostel
 - 4 -> Campground
 
 The column _id_ is a primary key.
@@ -108,8 +109,8 @@ The column _id_ is a primary key.
 
 The table `source2.accommodation` contains same attributs as the table `source1.rooms` with a different schema. 
 
-| id | english_title  | german_title | italian_title | accommodation_units | acco_type | guest_nb | german_description | italian_description | hotel | 
-| -- | -------------- | ------------ | ------------- | ------------------- | --------- | -------- | -------------------| ------------------- | ------|
+| id | english_title  | german_title | italian_title | acco_type | guest_nb | german_description | italian_description | hotel | 
+| -- | -------------- | ------------ | ------------- | --------- | -------- | ------------------ | ------------------- | ------|
 |73F2B6C02A6152C286BFF186D1572DBC |	Apartment Zerminiger |	Ferienwohnung Zerminiger |	Appartamento Zerminiger |	2 | 4 |	Mit einer Wohnfläche von 59 m² bietet die Ferienwohnung Zerminiger ausreichend Platz für 4 Personen. Das Appartement ist nach Süd-Osten ausgerichtet und verfügt über zwei getrennte Schlafzimmer, einer Wohnküche mit gemütlicher Sitzecke, WC mit Dusche sowie zwei Balkonen. |	Con una superficie abitabile di 59 mq, l'appartamento Zerminiger offre spazio sufficiente per ospitare fino a 4 persone. L'appartamento è esposto a sud-est e dispone di due camere da letto separate, una cucina con un accogliente salotto, un bagno con doccia e due balconi. | 	0A99E8B00EBA57956959949D017055FB |
 |7F90B92F9CAA2F653B0F4DAEF5476A67|	Appartment for 2-6 persons	| Ferienwohnung für 2-6 Personen |	Appartamento per 2-6 persone |	2 |	5 |	Großzügig ausgestatete geräumige Wohnung mit zwei getrennten Schlafzimmer und einem direkten Zugang zur Liegewiese/Garten. |	Ben aredate spazio appartamento con due camere da letto  e con un accesso diretto al prato	| 25548AEDD4682E0D809086AD1B28E6F2 |
 | D3B0D75E132711D291A60040055FA744 |	Family room |	Doppelzimmer | Süd A mit Balkon & Talblick	Camera famigliare |	1 |	4 |	WC, Dusche, Balkon, Talblick |	WC, doccia, balcone |	F63F948FEE3E11D191A60040055FA744 |
@@ -128,9 +129,10 @@ The column _id_ is a primary key.
 The table `source3.weather_platforms` contains a local ID, name and the geometrical points of the weather platforms. 
 
 | id | name  | pointprojection | 
-| --------------- | --------------- | --------------- | 
-|  |  |  | 
-
+| -- | ----- | --------------- | 
+|23862|	Forte D'Ampola |	POINT (10.646293 45.863893) |
+|23863|	Ghiacciaio Del Careser |	POINT (10.718272 46.451278) |
+|23864|	Ghiacciaio di Fradusta |	POINT (11.871709 46.255107) |
 
  - `source3.weather_measurement`
  
@@ -139,15 +141,18 @@ The table `source3.weather_platforms` contains a local ID, name and the geometri
 
 | id | period  | timestamp | double_value | platform_id | 
 | --------------- | --------------- | --------------- |  --------------- | --------------- | 
-| |  | | | 
-
+|203881|	3600	|2019-01-07| 23:00:00	|water-temperature	|11.7 |	2173 |
+|204004	|3600|	2019-01-07 |23:00:00|	water-temperature	|10.8 |	2166 |
+|230277	|900|	2020-07-14 |14:15:00|	wind10m_speed |	4.5 |	23893|
  - `source3.measurement_types`
  
 The table `source3.measurement_types` contains name, unit, description and statistical type of the measurements.
 
 | name | unit  | description | statisticalType | 
 | --------------- | --------------- | --------------- |  --------------- |
-| | | | |
+|temp_aria |	[°C] |	Temperatura dell’aria |	Mean |
+|umidita_rel|	[%] |	Umidità relativa dell’aria |	Mean |
+|umidita_abs|	[g/m^3]|	Umidità assoluta dell’aria |	Mean |
 
 ### Optional: visualize it in DBeaver
 To visualize the dataset in DBeaver or a similar tool, the credentials to access the PostgreSQL database are the followings:
