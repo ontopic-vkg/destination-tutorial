@@ -45,6 +45,11 @@ For this tutorial, we assume that the ports 7777 (used for database) and 8080 (u
 
 The dataset is composed of the following tables:
  - `source1.municipalities`
+ 
+| m_id | name_en  | name_en | name_de | IstatNumber | population | latitude | longitude | altitude | geometryPoint | 
+| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+| |  | | | |  | | | | 
+
  - `source1.hospitality`
  - `source1.rooms`
  - `source2.hotels`
