@@ -45,18 +45,100 @@ For this tutorial, we assume that the ports 7777 (used for database) and 8080 (u
 
 The dataset is composed of the following tables:
  - `source1.municipalities`
+
+The table `source1.municipalities` contains the local ID _(m_id)_, name _(en, it, de)_, ISTAT number,  population, geometrical coordinates _(latitude, longitude, altitude)_ and geometrical points of the municipalities.
  
 | m_id | name_en  | name_en | name_de | IstatNumber | population | latitude | longitude | altitude | geometryPoint | 
 | --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
 | |  | | | |  | | | | 
 
+The column _m_id_ is a primary key.
+
+
  - `source1.hospitality`
+
+The table `source1.hospitality` contains the local ID _(h_id)_, name _(en ,it ,de)_, telephone number, email, type _(kind)_, geometrical coordinates _(latitude, longitude, altitude)_, geometrical points and the associated municipality ID of the lodging business. 
+ 
+ | h_id | name_en  | name_en | name_de | telephone | kind | latitude | longitude | altitude | geometryPoint | 
+| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+| |  | | | |  | | | | 
+
+The column kind is populated with string data types: _Hotel, Hostel, Campground, Bed and Breakfast_.
+
+The column _h_id_ is a primary key.
+
+
  - `source1.rooms`
+
+Similarly, the table `source1.rooms` contains the room ID, name, number of room unit, maximal number of guests, multilingual descriptions and hospitality ID of the rooms.
+
+| r_id | name_en  | name_en | name_de | roomUnits | type | maximumGuest | description_it | description_de | h_id | 
+| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+| |  | | | |  | | | | 
+
+The column type is also populated with string data types: _Room, Appartement, Pitch, Youth_.
+
+The column _r_id_ is a primary key.
+
  - `source2.hotels`
+
+The table `source2.hotels` contains the ID, the name _(english, italian, german)_, type _(htype)_, geographical coordinates _(lat, long, alt)_ rating values _(cat)_, municipalities _(mun)_ and the geometrical points _(geom)_ of the lodging business. The table `source2.hotels` contains same attributs as the table `source1.hospitality` with a different schema.   
+
+| id | english  | italian | german | htype | lat | long | alt | cat | mun | geom | 
+| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+| |  | | | |  | | | | |
+
+The column _htype_ is populated with magic numbers (they differ from the table `source1.hospitality`):
+
+- 1 -> BedAndBreakfast
+- 2 -> Hotel
+- 4 -> Campground
+
+The column _id_ is a primary key.
+
+
  - `source2.accommodation`
+
+The table `source2.accommodation` contains same attributs as the table `source1.rooms` with a different schema. 
+
+| id | english_title  | german_title | italian_title | accommodation_units | acco_type | guest_nb | german_description | italian_description | hotel | 
+| --------------- | --------------- | --------------- |  --------------- | --------------- | --------------- | --------------- | --------------- | --------------- | --------------- |
+| |  | | | |  | | | | 
+
+The column _acco_type_ is populated with magic numbers (they differ from the table `source1.hospitality`):
+
+- 1 -> Room
+- 2 -> Apartment
+- 3 -> Pitch
+- 4 -> Youth
+
+The column _id_ is a primary key.
+
  - `source3.weather_platforms`
+
+The table `source3.weather_platforms` contains a local ID, name and the geometrical points of the weather platforms. 
+
+| id | name  | pointprojection | 
+| --------------- | --------------- | --------------- | 
+|  |  |  | 
+
+
  - `source3.weather_measurement`
+ 
+ The table `source3.weather_measurement` contains the local ID, period, timestamp, name, values of the weather measurements observed by the weather platforms. Also, there is an ID of the platforms.  
+
+
+| id | period  | timestamp | double_value | platform_id | 
+| --------------- | --------------- | --------------- |  --------------- | --------------- | 
+| |  | | | 
+
  - `source3.measurement_types`
+ 
+The table `source3.measurement_types` contains name, unit, description and statistical type of the measurements.
+
+| name | unit  | description | statisticalType | 
+| --------------- | --------------- | --------------- |  --------------- |
+| | | | |
 
 ### Optional: visualize it in DBeaver
 To visualize the dataset in DBeaver or a similar tool, the credentials to access the PostgreSQL database are the followings:
