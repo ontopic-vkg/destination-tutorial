@@ -142,9 +142,9 @@ The table `source3.weather_platforms` contains a local ID, name and the geometri
 
 | id | period  | timestamp | name | double_value | platform_id | 
 | -- | ------- | --------- | ---- | ------------ | ----------- | 
-| 203881 |	3600	| 2019-01-07 | 23:00:00	| water-temperature	| 11.7 |	2173 |
-| 204004	| 3600 |	2019-01-07 | 23:00:00 |	water-temperature	| 10.8 |	2166 |
-| 230277	| 900 |	2020-07-14 | 14:15:00 |	wind10m_speed |	4.5 |	23893 |
+| 203881 |	3600	| 2019-01-07 23:00:00	| water-temperature	| 11.7 |	2173 |
+| 204004	| 3600 |	2019-01-07 23:00:00 |	water-temperature	| 10.8 |	2166 |
+| 230277	| 900 |	2020-07-14 14:15:00 |	wind10m_speed |	4.5 |	23893 |
  - `source3.measurement_types`
  
 The table `source3.measurement_types` contains name, unit, description and statistical type of the measurements.
