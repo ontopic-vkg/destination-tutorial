@@ -175,7 +175,7 @@ SELECT * FROM source1.rooms
 
 The database of `source2` has a different schema for the lodging business. 
 
-***`source2` - LodgingBusiness***
+***M8 `source2` - LodgingBusiness***
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/0{mun} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} .
@@ -277,6 +277,17 @@ data:source2/accommodation/{id} a schema:CampingPitch .
 SELECT * FROM source2.accommodation
 WHERE acco_type = 3
 ```
+
+***M9 `source2` - LodgingBusiness-municipalities***
+- Target
+```sparql
+data:source2/hotels/{id} schema:containedInPlace data:municipalities/0{mun} .
+```
+- Source
+ ```sql
+SELECT * FROM source2.hotels
+```
+
 ## Source 3
 
 ***M10 Weather platform***
