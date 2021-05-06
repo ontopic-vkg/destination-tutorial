@@ -209,7 +209,7 @@ If you click of *File -> Save*, your changes will be saved and the Ontop SPARQL 
  13. Map weather results
  14. Map the observed properties
  
-[Detailed mapping]()
+[Detailed mapping](https://github.com/ontopic-vkg/destination-tutorial/blob/tutorial-documentation/README_detailed_mappings.md)
 
 
 ## Solutions
