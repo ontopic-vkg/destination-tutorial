@@ -1,5 +1,5 @@
-## Mappings
-
+# Mappings
+## Source 1
 ***M.0 `source1` - Municipality***
   
 - Target                      
@@ -65,7 +65,7 @@ data:source1/geo/hospitality/{h_id} a schema:GeoCoordinates ; schema:longitude {
  ```sql
 SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.hospitality
 ```
-***M5 sub-classes of `source1` lodging businesses***
+***M5 sub-classes of `source1` LodgingBusinesses***
 
 In the hospitaly table, lodging business types are populated by using the string values such as _HotelPension, Camping, BedAndBreakfast and Youth_. In order to create sub-class of lodging business, we need to specify a filtering condition in the `WHERE` clause.  
 
@@ -128,7 +128,7 @@ data:source1/occupancy/rooms/{r_id} a schema:QuantitativeValue ; schema:maxValue
  ```sql
 SELECT * FROM source1.rooms
 ```
-***M6 sub-classes of `source1` accomodation***
+***M6 sub-classes of `source1` Accommodation***
 
 The sub-classes of the room are constructed with the same way as lodging business types. 
 
@@ -162,7 +162,7 @@ data:source1/rooms/{r_id} a schema:CampingPitch .
 SELECT * FROM source1.rooms
 WHERE r_type = 'pitch'
 ```
-***M7 `source1` - accomodation-lodgingBusiness***
+***M7 `source1` - Accomodation-lodgingBusiness***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Accommodation ; schema:containedInPlace data:source1/hospitality/{h_id} .
@@ -171,11 +171,11 @@ data:source1/rooms/{r_id} a schema:Accommodation ; schema:containedInPlace data:
  ```sql
 SELECT * FROM source1.rooms
 ```
-#### Source 2
+## Source 2
 
 The database of `source2` has a different schema for the lodging business. 
 
-***`source2` - Lodging Business***
+***`source2` - LodgingBusiness***
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/0{mun} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} .
@@ -193,12 +193,9 @@ data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ;
  ```sql
 SELECT *, ST_AsText(geom) AS wkt FROM source2.hotels
 ```
-***sub-classes of `source2` lodging business***
+***sub-classes of `source2` LodgingBusiness***
 
-Unlike the `source1`, the type of `source2` lodging business is populated with magic numbers. 
-- 1 -> BedAndBreakfast
-- 2 -> Hotel
-- 4 -> Campground
+Instead of using the stirng values, we use the magic numbers in the `source2` LodgingBusines to create sub-classes. 
 
 ***`source2` - Hotel***
 - Target
@@ -230,7 +227,7 @@ data:source2/hotels/{id} a schema:Campground .
 SELECT * FROM source2.hotels
 WHERE htype = 4
 ```
-***`source2` - lodgingBusiness-accomodation***
+***`source2` - LodgingBusiness-accomodation***
 - Target
 ```sparql
 data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_title}@en , {italian_title}@it , {german_title}@de ; schema:description {german_description}@de , {italian_description}@it ; :numberOfUnits {accommodation_units} ; schema:containedInPlace data:source1/hospitality/{hotel} ; schema:occupancy data:source2/occupancy/accommodation/{id} . 
@@ -248,12 +245,8 @@ data:source2/occupancy/accommodation/{id} a schema:QuantitativeValue ; schema:ma
  ```sql
 SELECT * FROM source2.accommodation
 ```
-***`source2` - Apartement***
+**sub-classes of `source2` Accommodation**
 
-the type of `source2` accommodation is also populated with magic numbers. 
-- 1 -> Room
-- 2 -> Apartment
-- 3 -> CampingPitch
 ***`source2` - Apartement***
 - Target
 ```sparql
@@ -284,7 +277,7 @@ data:source2/accommodation/{id} a schema:CampingPitch .
 SELECT * FROM source2.accommodation
 WHERE acco_type = 3
 ```
-#### Source 3
+## Source 3
 
 ***M10 Weather platform***
 - Target
