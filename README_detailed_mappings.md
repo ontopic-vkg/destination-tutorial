@@ -13,7 +13,7 @@ SELECT * FROM source1.municipalities
 Some remarks:
 
 - The target part is described using a [Turtle-like syntax](https://github.com/ontop/ontop/wiki/TurtleSyntax) while the source part is a regular SQL query.
-- We used the primary key `istat` to create the IRI. [As we can see on the Ontop Tutorial](https://ontop-vkg.org/tutorial/mapping/primary-keys.html), this practice enables to remove self-joins, which is very important for optimizing the query performance.
+- We used the primary key _istat_ to create the IRI. [As we can see on the Ontop Tutorial](https://ontop-vkg.org/tutorial/mapping/primary-keys.html), this practice enables to remove self-joins, which is very important for optimizing the query performance.
 - This entry could be split into several mapping assertions:
 ```sparql
 data:municipalities/{istat} a :Municipality.
