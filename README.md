@@ -19,6 +19,16 @@ Otherwise, on MacOS and Linux:
 git clone https://github.com/ontopic-vkg/destination-tutorial
 ```
 
+## Table of contents
+* [Setup Protégé](#setup-protégé)
+* [Start Docker-Compose](#start-docker-compose)
+* [Dataset](#dataset)
+* [Mapping](#mapping)
+* [Solutions](#solutions)
+* [More info](#to-know-more)
+
+
+
 ## Setup Protégé
 * Run Protégé (*run.bat* on Windows, *run.sh* on Mac/Linux)
 * Register the PostgreSQL JDBC driver: go to *Preferences -> JDBC Drivers* and add an entry with the following information
@@ -78,8 +88,8 @@ Similarly, the table `source1.rooms` contains the room ID, name, number of room 
 
 | r_id | name_en  | name_it | name_de | roomUnits | type | maximumGuest | description_de | description_it | h_id | 
 | ---- | -------- | ------- | ------- | --------- | ---- | ------------ | ---------------| -------------- | -------- |
-| E4B47698C5A677584245B6F4E13CCB69 |	Appartement "PANORMASUITE" |	Apartment "Panoramasuite" |	Appartamento "PANORMASUITE" |	1	| apartment	| 4 |	Natursuite mit Schlafempore und traumhaften Blick ins Tal; auch gut geeignet für 3 Erwachsene; sowie Familien |	Suite con area notte al piano superiore e vista mozzafiato sulla valle; adatto per tre adulti o per una famiglia |	32001C4FAA1311D1926F00805A150B0B |
-| AF57632D700A11D3962F00104B421FA8 |	"Crab apple" |	"Zierapfel" |	"Mela selvatica" |	1 |	apartment |	6 |	Wohnraum mit Kochnische, Südbalkon mit Panoramaaussicht, Bad und 2 Schlafzimmern. |	Stanza di soggiorno con cucina, balcone panoramico verso sud, bagno e2 camere da letto con moquette |	E650C0C33DC111D29536004F56000ECA |
+| E4B47698C5A677584245B6F4E13CCB69 |	Appartement "PANORMASUITE" |	Apartment "Panoramasuite" |	Appartamento "PANORMASUITE" |	1	| apartment	| 4 |	Natursuite mit Schlafempore...|	Suite con area notte al piano superiore... |	32001C4FAA1311D1926F00805A150B0B |
+| AF57632D700A11D3962F00104B421FA8 |	"Crab apple" |	"Zierapfel" |	"Mela selvatica" |	1 |	apartment |	6 |	Wohnraum mit Kochnische... |	Stanza di soggiorno con cucina...|	E650C0C33DC111D29536004F56000ECA |
 | 65F7D5D3182D4300A42E23D60F836F61 |	apartment Sella for 5-6 people |	Ferienwohnung Sella für 5-6 Personen |	Appartamento Sella per 5-6 persone |	1	| apartment |	6 |	Ferienwohnung 5 Personen |	Appartamento 5 persone |	8DA75A1A0AE743B489948BA98ECA30A9 |
 
 The column _type_ is also populated with string data types: _Room, Appartement, Pitch, Youth_.
@@ -112,8 +122,8 @@ The table `source2.accommodation` contains same attributs as the table `source1.
 
 | id | english_title  | german_title | italian_title | acco_type | guest_nb | german_description | italian_description | hotel | 
 | -- | -------------- | ------------ | ------------- | --------- | -------- | ------------------ | ------------------- | ------|
-|73F2B6C02A6152C286BFF186D1572DBC |	Apartment Zerminiger |	Ferienwohnung Zerminiger |	Appartamento Zerminiger |	2 | 4 |	Mit einer Wohnfläche von 59 m² bietet die Ferienwohnung Zerminiger ausreichend Platz für 4 Personen. Das Appartement ist nach Süd-Osten ausgerichtet und verfügt über zwei getrennte Schlafzimmer, einer Wohnküche mit gemütlicher Sitzecke, WC mit Dusche sowie zwei Balkonen. |	Con una superficie abitabile di 59 mq, l'appartamento Zerminiger offre spazio sufficiente per ospitare fino a 4 persone. L'appartamento è esposto a sud-est e dispone di due camere da letto separate, una cucina con un accogliente salotto, un bagno con doccia e due balconi. | 	0A99E8B00EBA57956959949D017055FB |
-|7F90B92F9CAA2F653B0F4DAEF5476A67|	Appartment for 2-6 persons	| Ferienwohnung für 2-6 Personen |	Appartamento per 2-6 persone |	2 |	5 |	Großzügig ausgestatete geräumige Wohnung mit zwei getrennten Schlafzimmer und einem direkten Zugang zur Liegewiese/Garten. |	Ben aredate spazio appartamento con due camere da letto  e con un accesso diretto al prato	| 25548AEDD4682E0D809086AD1B28E6F2 |
+|73F2B6C02A6152C286BFF186D1572DBC |	Apartment Zerminiger |	Ferienwohnung Zerminiger |	Appartamento Zerminiger |	2 | 4 |	Mit einer Wohnfläche von 59 m² bietet... |	Con una superficie abitabile di 59 mq... | 	0A99E8B00EBA57956959949D017055FB |
+|7F90B92F9CAA2F653B0F4DAEF5476A67|	Appartment for 2-6 persons	| Ferienwohnung für 2-6 Personen |	Appartamento per 2-6 persone |	2 |	5 |	Großzügig ausgestatete geräumige Wohnung mit zwei getrennten Schlafzimmer... |	Ben aredate spazio appartamento con due camere da letto...	| 25548AEDD4682E0D809086AD1B28E6F2 |
 | D3B0D75E132711D291A60040055FA744 |	Family room |	Doppelzimmer | Süd A mit Balkon & Talblick	Camera famigliare |	1 |	4 |	WC, Dusche, Balkon, Talblick |	WC, doccia, balcone |	F63F948FEE3E11D191A60040055FA744 |
 
 The column _acco_type_ is populated with magic numbers (they differ from the table `source1.hospitality`):
