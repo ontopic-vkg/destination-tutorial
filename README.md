@@ -53,6 +53,7 @@ The table `source1.municipalities` contains the local ID _(m_id)_, name _(en, it
 |A7CA017FF0424503827BCD0E552F4648 |	021069 |	Proves/Proveis |	Proves |	Proveis |	266 |	46.4781 |	11.023 |	1420.0 |	POINT Z(11.023 46.4781 1420) |
 | BB0043517A57498683B2F997B7B68D5F |	021065 |	Ponte Gardena/Waidbruck |	Ponte Gardena |	Waidbruck |	203 |	46.598 |	11.5317 |	470.0 |	POINT Z(11.5317 46.598 470) |
 | 516EF5F9F7794997B874828DBE157E6E |	021036 |	Glorenza/Glurns |	Glorenza |	Glurns |	894 |	46.6711 |	10.5565  |	907.0 |	POINT Z(10.5565 46.6711 907) |
+
 The column _m_id_ is a primary key.
 
 
@@ -128,8 +129,8 @@ The column _id_ is a primary key.
 
 The table `source3.weather_platforms` contains a local ID, name and the geometrical points of the weather platforms. 
 
-| id | name  | pointprojection | 
-| -- | ----- | --------------- | 
+| id | name | pointprojection | 
+| -- | ---- | --------------- | 
 |23862|	Forte D'Ampola |	POINT (10.646293 45.863893) |
 |23863|	Ghiacciaio Del Careser |	POINT (10.718272 46.451278) |
 |23864|	Ghiacciaio di Fradusta |	POINT (11.871709 46.255107) |
@@ -139,11 +140,11 @@ The table `source3.weather_platforms` contains a local ID, name and the geometri
  The table `source3.weather_measurement` contains the local ID, period, timestamp, name, values of the weather measurements observed by the weather platforms. Also, there is an ID of the platforms.  
 
 
-| id | period  | timestamp | double_value | platform_id | 
-| --------------- | --------------- | --------------- |  --------------- | --------------- | 
-|203881|	3600	|2019-01-07| 23:00:00	|water-temperature	|11.7 |	2173 |
-|204004	|3600|	2019-01-07 |23:00:00|	water-temperature	|10.8 |	2166 |
-|230277	|900|	2020-07-14 |14:15:00|	wind10m_speed |	4.5 |	23893|
+| id | period  | timestamp | name | double_value | platform_id | 
+| -- | ------- | --------- | ---- | ------------ | ----------- | 
+| 203881 |	3600	| 2019-01-07 | 23:00:00	| water-temperature	| 11.7 |	2173 |
+| 204004	| 3600 |	2019-01-07 | 23:00:00 |	water-temperature	| 10.8 |	2166 |
+| 230277	| 900 |	2020-07-14 | 14:15:00 |	wind10m_speed |	4.5 |	23893 |
  - `source3.measurement_types`
  
 The table `source3.measurement_types` contains name, unit, description and statistical type of the measurements.
