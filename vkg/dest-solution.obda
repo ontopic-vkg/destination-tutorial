@@ -109,7 +109,7 @@ source		SELECT * FROM source2.hotels
 			WHERE htype = 4
 
 mappingId	Source 2 lodging business - accommodation
-target		data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_title}@en , {italian_title}@it , {german_title}@de ; schema:description {german_description}@de , {italian_description}@it ; :numberOfUnits {accommodation_units} ; schema:containedInPlace data:source1/hospitality/{hotel} ; schema:occupancy data:source2/occupancy/accommodation/{id} . 
+target		data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_title}@en , {italian_title}@it , {german_title}@de ; schema:description {german_description}@de , {italian_description}@it ; :numberOfUnits 1 ; schema:containedInPlace data:source2/hotels/{hotel} ; schema:occupancy data:source2/occupancy/accommodation/{id} . 
 source		SELECT * FROM source2.accommodation
 
 mappingId	Source 2 - room occupancy
