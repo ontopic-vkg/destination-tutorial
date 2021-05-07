@@ -287,6 +287,7 @@ data:source2/hotels/{id} schema:containedInPlace data:municipalities/0{mun} .
  ```sql
 SELECT * FROM source2.hotels
 ```
+Note: To map `source2` lodging business to the corresponding municipalities, we need to and _"0"_ before the ID of the municipalities. In the dataset, when there are missing or misscalculated values, we can modify them in order to create a meaningful relation.  
 
 ## Source 3
 
