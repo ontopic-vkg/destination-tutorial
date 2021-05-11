@@ -109,7 +109,7 @@ data:source1/hospitality/{h_id} a schema:Hostel .
 SELECT h_id, h_type FROM source1.hospitality
 WHERE h_type = 'Youth'
 ```
-***M6 `source1` - Accomodation***
+***M6 `source1` - Accommodation***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Accommodation ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:description {description_de}@de , {description_it}@it ; :numberOfUnits {room_units} ; schema:occupancy data:source1/occupancy/rooms/{r_id} . 
@@ -162,7 +162,7 @@ data:source1/rooms/{r_id} a schema:CampingPitch .
 SELECT * FROM source1.rooms
 WHERE r_type = 'pitch'
 ```
-***M7 `source1` - Accomodation-lodgingBusiness***
+***M7 `source1` - Accommodation-lodgingBusiness***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Accommodation ; schema:containedInPlace data:source1/hospitality/{h_id} .
@@ -227,7 +227,7 @@ data:source2/hotels/{id} a schema:Campground .
 SELECT * FROM source2.hotels
 WHERE htype = 4
 ```
-***`source2` - LodgingBusiness-accomodation***
+***`source2` - LodgingBusiness-accommodation***
 - Target
 ```sparql
 data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_title}@en , {italian_title}@it , {german_title}@de ; schema:description {german_description}@de , {italian_description}@it ; :numberOfUnits 1 ; schema:containedInPlace data:source1/hospitality/{hotel} ; schema:occupancy data:source2/occupancy/accommodation/{id} . 
