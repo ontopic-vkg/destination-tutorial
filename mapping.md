@@ -1,6 +1,6 @@
-# Mappings
+# Mapping entries
 ## Source 1
-***M.0 `source1` - Municipality***
+***M0 `source1` - Municipality***
   
 - Target                      
 ```sparql
@@ -13,17 +13,17 @@ SELECT * FROM source1.municipalities
 Some remarks:
 
 - The target part is described using a [Turtle-like syntax](https://github.com/ontop/ontop/wiki/TurtleSyntax) while the source part is a regular SQL query.
-- We used the primary key _istat_ to create the IRI. [As we can see on the Ontop Tutorial](https://ontop-vkg.org/tutorial/mapping/primary-keys.html), this practice enables to remove self-joins, which is very important for optimizing the query performance.
-- This entry could be split into several mapping assertions:
+- We used the unique constraint _istat_ to create the IRI. [As demonstrated in the official Ontop tutorial](https://ontop-vkg.org/tutorial/mapping/primary-keys), this practice enables to remove self-joins, which is very important for optimizing the query performance.
+- This entry could be split into several mapping entries:
 ```sparql
 data:municipalities/{istat} a :Municipality.
 data:municipalities/{istat} schema:name {name_it}@it , {name_de}@de , {name_en}@en.
 data:municipalities/{istat} geo:defaultGeometry data:geo/municipalities/{istat}. 
 data:municipalities/{istat} schema:geo data:geo/municipalities/{istat} . 
 ```
-Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. If an object has associated data properties, they will then be defined seperatly as you can see in the next mapping. 
+Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. If an object has associated data properties, they will then be defined separately as you can see in the next mapping entry. 
 
-Let us now add the other mapping assertions by clicking on create:
+Let us now add the other mapping entries by clicking on create:
 
 ***M1 `source1` - Municipality-geometry***
 - Target
@@ -34,7 +34,7 @@ data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude {longit
  ```sql
 SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.municipalities
 ```
-Note: As we use [GeoSPARQL](https://en.wikipedia.org/wiki/OGC_GeoSPARQL) vocabulary for representing spatial information in our mappings, the vector geometry objects needed to be represented as _Well-known text (WKT)_. In this case, we use `ST_AsText` function which returns WKT representation of the geometry. 
+Note: As we use the [GeoSPARQL](https://en.wikipedia.org/wiki/OGC_GeoSPARQL) vocabulary for representing spatial information in our mapping entries, the vector geometry objects needed to be represented as _Well-known text (WKT)_. In this case, we use `ST_AsText` function which returns WKT representation of the geometry. 
 
 ***M2 `source1` - LodgingBusiness***
 - Target
@@ -65,9 +65,9 @@ data:source1/geo/hospitality/{h_id} a schema:GeoCoordinates ; schema:longitude {
  ```sql
 SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.hospitality
 ```
-***M5 sub-classes of `source1` LodgingBusinesses***
+***M5 subclasses of `source1` LodgingBusinesses***
 
-In the hospitaly table, lodging business types are populated by using the string values such as _HotelPension, Camping, BedAndBreakfast and Youth_. In order to create sub-class of lodging business, we need to specify a filtering condition in the `WHERE` clause.  
+In the hospitality table, lodging business types are populated using string values such as _HotelPension, Camping, BedAndBreakfast and Youth_. In order to instantiate subclasses of lodging business, we need to specify a filtering condition in the `WHERE` clause.  
 
 ***M5.a `source1` - Hotel***
 - Target
@@ -128,9 +128,9 @@ data:source1/occupancy/rooms/{r_id} a schema:QuantitativeValue ; schema:maxValue
  ```sql
 SELECT * FROM source1.rooms
 ```
-***M6 sub-classes of `source1` Accommodation***
+***M6 subclasses of `source1` Accommodation***
 
-The sub-classes of the room are constructed with the same way as lodging business types. 
+The subclasses of the room are instantiated in the same way as lodging business types. 
 
 ***M6.a `source1` - Apartement***
 - Target
@@ -287,7 +287,7 @@ data:source2/hotels/{id} schema:containedInPlace data:municipalities/0{mun} .
  ```sql
 SELECT * FROM source2.hotels
 ```
-Note: To map `source2` lodging business to the corresponding municipalities, we need to and _"0"_ before the ID of the municipalities. In the dataset, when there are missing or misscalculated values, we can modify them in order to create a meaningful relation.  
+Note: To map `source2` lodging businesses to the corresponding municipalities, we need to and _"0"_ before the ID of the municipalities. In the dataset, when there are missing or misscalculated values, we can modify them in order to create a meaningful relation.  
 
 ## Source 3
 
