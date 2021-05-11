@@ -21,7 +21,7 @@ data:municipalities/{istat} schema:name {name_it}@it , {name_de}@de , {name_en}@
 data:municipalities/{istat} geo:defaultGeometry data:geo/municipalities/{istat}. 
 data:municipalities/{istat} schema:geo data:geo/municipalities/{istat} . 
 ```
-Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. If an object has associated data properties, they will then be defined separately as you can see in the next mapping entry. 
+Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. If an object has associated data properties, they will then be defined separately as we will see in the next mapping entry. 
 
 Let us now add the other mapping entries by clicking on create:
 
@@ -173,7 +173,7 @@ SELECT * FROM source1.rooms
 ```
 ## Source 2
 
-The database of `source2` has a different schema for the lodging business. 
+`source2` also contains data about lodging businesses and accommodation, but within tables with different structures.
 
 ***M8 `source2` - LodgingBusiness***
 - Target
@@ -239,7 +239,7 @@ SELECT * FROM source2.accommodation
 ***`source2` - RoomOccupancy***
 - Target
 ```sparql
-data:source2/occupancy/accommodation/{id} a schema:QuantitativeValue ; schema:maxValue {guest_nb} ; schema:unitCode "C62"^^xsd:string . 
+data:source2/occupancy/accommodation/{id} a schema:QuantitativeValue ; schema:maxValue {guest_nb} ; schema:unitCode "C62" . 
 ```
 - Source
  ```sql
