@@ -175,7 +175,7 @@ To visualize the dataset in DBeaver or a similar tool, the credentials to access
 
 ## Mapping
 
-In this tutorial, the ontology and the SPARQL queries are already provided. We will focus on the mapping. Our goal is to reproduce a fragment of the following diagrams.
+In this tutorial, the ontology and the SPARQL queries are already provided. We will focus on the mapping. Our goal is to reproduce the following diagrams.
 
 For tables in the schemas `source1` and `source2`:
 
@@ -193,23 +193,9 @@ On Protégé, open (in a new window if requested) the ontology file `vkg/dest.tt
 
 If you click of *File -> Save*, your changes will be saved and the Ontop SPARQL endpoint will be automatically restarted.
 
-### Proposed sequence
- 1. Map the municipality geometries
- 2. Map the names, telephone, email and the main class of `source1` lodging businesses
- 3. Map these lodging businesses to municipalities
- 4. Map their geometries
- 5. Map the sub-classes of `source1` lodging businesses
- 6. Map the names and descriptions of `source1` accommodations
- 7. Map `source1` accommodations to their lodging businesses
- 8. Map the names and the main class of `source2` lodging businesses
- 9. Map these lodging businesses to municipalities
- 10. Map the main class, names and geometries of weather stations
- 11. Map weather observations
- 12. Map weather sensors
- 13. Map weather results
- 14. Map the observed properties
+### Mapping entries
  
-[Detailed mapping](mapping.md)
+See [the dedicated page](mapping.md) for specifying the mapping entries.
 
 
 ## Solutions
@@ -229,4 +215,4 @@ Example SPARQL queries are available at http://localhost:8080/ .
 
 ## To know more
 
-Visit https://ontop-vkg.org . This official website provides a more detailed tutorial.
+Visit the official website of Ontop https://ontop-vkg.org, which also provides a more detailed tutorial.
