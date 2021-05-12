@@ -2,6 +2,12 @@
 
 This tutorial is adapted from [the Virtual Knowledge Graph](https://github.com/noi-techpark/it.bz.opendatahub.sparql) of the South Tyrolean [Open Data Hub](https://opendatahub.bz.it/).
 
+
+## Materials 
+Slides of the tutorial given at the Knowledge Graph Conference (KGC) 2021 can be found in the `slides` directory.
+
+The video of the tutorial is available [here](https://knowledgegraphconference.vhx.tv/kgc-2021/videos/may-3rd-t3-integrating-data-through-virtual-knowledge-graphs-with-ontop-bb71a1dc-c38d-4729-baa0-03917fdd0d99) (subscription or conference ticket required).
+
 ## Requirements
  - Docker
  - Protégé 5.5 with the Ontop 4.1.0 plugin installed. A bundle is available [here](https://sourceforge.net/projects/ontop4obda/files/ontop-4.1.0/).
