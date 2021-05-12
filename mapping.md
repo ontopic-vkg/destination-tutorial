@@ -1,8 +1,17 @@
 # Mapping entries
+
 ## Source 1
+
+Let us start mapping data coming from the first source according to the following diagram: 
+
+<img src="diagrams/lodging.png" width="800"/>
+
+
 ***M0 `source1` - Municipality***
-  
-- Target                      
+
+This first mapping entry is already provided in the mapping file.
+
+- Target
 ```sparql
 data:municipalities/{istat} a :Municipality ; schema:name {name_it}@it , {name_de}@de , {name_en}@en ; geo:defaultGeometry data:geo/municipalities/{istat} ; schema:geo data:geo/municipalities/{istat} . 
 ```
@@ -21,7 +30,7 @@ data:municipalities/{istat} schema:name {name_it}@it , {name_de}@de , {name_en}@
 data:municipalities/{istat} geo:defaultGeometry data:geo/municipalities/{istat}. 
 data:municipalities/{istat} schema:geo data:geo/municipalities/{istat} . 
 ```
-Note: To map data properties, we use the data directly from table by using the column names. For the object properties, we create an unique IRI to identify the object. If an object has associated data properties, they will then be defined separately as we will see in the next mapping entry. 
+Note: To map data properties, we use the data directly from table using the column names. For the object properties `schema:geo` and `geo:defaultGeometry`, we create a new IRI template also using the primary key, so as to obtain an geometry object that is specific to the municipality.
 
 Let us now add the other mapping entries by clicking on create:
 
@@ -34,9 +43,12 @@ data:geo/municipality/{istat} a schema:GeoCoordinates ; schema:longitude {longit
  ```sql
 SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.municipalities
 ```
-Note: As we use the [GeoSPARQL](https://en.wikipedia.org/wiki/OGC_GeoSPARQL) vocabulary for representing spatial information in our mapping entries, the vector geometry objects needed to be represented as _Well-known text (WKT)_. In this case, we use `ST_AsText` function which returns WKT representation of the geometry. 
+Note: As we use the [GeoSPARQL](https://en.wikipedia.org/wiki/OGC_GeoSPARQL) vocabulary for representing spatial information in our mapping entries, the vector geometry objects needed to be represented as _Well-known text (WKT)_. In this case, we use `ST_AsText` function which returns WKT representation of the geometry. We also need to explicitly specify the datatype of the literal (`geo:wktLiteral`) as otherwise the inferred datatype from a `text` DB column would have been `xsd:string`.
 
 ***M2 `source1` - LodgingBusiness***
+
+For lodging businesses (from the table `source1.hospitality`), we follow a similar logic.
+
 - Target
 ```sparql
 data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:telephone {telephone} ; schema:email {email} ; geo:defaultGeometry data:source1/geo/hospitality/{h_id} ; schema:geo data:source1/geo/hospitality/{h_id} . 
@@ -46,7 +58,14 @@ data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}
 SELECT * FROM source1.hospitality
 ```
 
-***M3 `source1` - LodgingBusiness-municipalities***
+Observe that we didn't map directly the municipality as the column `m_id`, which refers to the primary key of the municipality, is not the ID that can be used in the municipality IRI template.
+To map it, let us create a new mapping entry.
+
+
+***M3 `source1` - LodgingBusiness-municipality***
+
+In order to obtain the `istat` ID needed by the municipality IRI template, we need to perform a join between the `source1.hospitality`  and `source1.municipalities` tables.
+
 - Target
 ```sparql
 data:source1/hospitality/{h_id} schema:containedInPlace data:municipality/{istat} .  
@@ -65,9 +84,9 @@ data:source1/geo/hospitality/{h_id} a schema:GeoCoordinates ; schema:longitude {
  ```sql
 SELECT *, ST_AsText(geometrypoint) AS wkt FROM source1.hospitality
 ```
-***M5 subclasses of `source1` LodgingBusinesses***
+### Subclasses of `source1` LodgingBusinesses
 
-In the hospitality table, lodging business types are populated using string values such as _HotelPension, Camping, BedAndBreakfast and Youth_. In order to instantiate subclasses of lodging business, we need to specify a filtering condition in the `WHERE` clause.  
+In the `source1.hospitality` table, lodging business types are populated using string values such as _HotelPension, Camping, BedAndBreakfast and Youth_. In order to instantiate subclasses of lodging businesses, we need to specify a filtering condition in the `WHERE` clause.
 
 ***M5.a `source1` - Hotel***
 - Target
@@ -110,6 +129,9 @@ SELECT h_id, h_type FROM source1.hospitality
 WHERE h_type = 'Youth'
 ```
 ***M6 `source1` - Accommodation***
+
+For accommodation, one particularity is that the occupancy needs to be modelled as an object property. 
+
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Accommodation ; schema:name {name_en}@en , {name_it}@it , {name_de}@de ; schema:description {description_de}@de , {description_it}@it ; :numberOfUnits {room_units} ; schema:occupancy data:source1/occupancy/rooms/{r_id} . 
@@ -119,20 +141,20 @@ data:source1/rooms/{r_id} a schema:Accommodation ; schema:name {name_en}@en , {n
  ```sql
 SELECT * FROM source1.rooms
 ```
-***M6 `source1` - RoomOccupancy***
+***M7 `source1` - RoomOccupancy***
 - Target
 ```sparql
-data:source1/occupancy/rooms/{r_id} a schema:QuantitativeValue ; schema:maxValue {capacity} ; schema:unitCode "C62"^^xsd:string . 
+data:source1/occupancy/rooms/{r_id} a schema:QuantitativeValue ; schema:maxValue {capacity} ; schema:unitCode "C62" . 
 ```
 - Source
  ```sql
 SELECT * FROM source1.rooms
 ```
-***M6 subclasses of `source1` Accommodation***
+### Subclasses of `source1` Accommodation
 
 The subclasses of the room are instantiated in the same way as lodging business types. 
 
-***M6.a `source1` - Apartement***
+***M8.a `source1` - Apartement***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Apartment . 
@@ -142,7 +164,7 @@ data:source1/rooms/{r_id} a schema:Apartment .
 SELECT * FROM source1.rooms
 WHERE r_type = 'apartment'
 ```
-***M6.b `source1` - Room***
+***M8.b `source1` - Room***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Room . 
@@ -152,7 +174,7 @@ data:source1/rooms/{r_id} a schema:Room .
 SELECT * FROM source1.rooms
 WHERE r_type = 'room'
 ```
-***M6.c `source1` - CampingPitch***
+***M8.c `source1` - CampingPitch***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:CampingPitch . 
@@ -162,7 +184,7 @@ data:source1/rooms/{r_id} a schema:CampingPitch .
 SELECT * FROM source1.rooms
 WHERE r_type = 'pitch'
 ```
-***M7 `source1` - Accommodation-lodgingBusiness***
+***M9 `source1` - Accommodation-lodgingBusiness***
 - Target
 ```sparql
 data:source1/rooms/{r_id} a schema:Accommodation ; schema:containedInPlace data:source1/hospitality/{h_id} .
@@ -174,8 +196,10 @@ SELECT * FROM source1.rooms
 ## Source 2
 
 `source2` also contains data about lodging businesses and accommodation, but within tables with different structures.
+It uses the same diagram as the first source.
 
-***M8 `source2` - LodgingBusiness***
+***M10 `source2` - LodgingBusiness***
+
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/0{mun} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} .
@@ -184,7 +208,13 @@ data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {
  ```sql
 SELECT * FROM source2.hotels
 ```
-***`source2` - LodgingBusiness-geo***
+
+Note that here we have directly mapped the lodging business to the municipality using the ISTAT number (`mun` column). However, this column is an integer, not a string as in `source1.municipalities`, so we need to include a _0_ before the ID in the IRI template so as to produce the same IRIs.
+
+The rest of this section about the second source is similar to the previous section. Feel free to skip it and move to the next section about the third source.
+
+
+***M11`source2` - LodgingBusiness-geo***
 - Target
 ```sparql
 data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ; schema:latitude {lat} ; schema:elevation {alt} ; geo:asWKT {wkt}^^geo:wktLiteral . 
@@ -193,11 +223,11 @@ data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ;
  ```sql
 SELECT *, ST_AsText(geom) AS wkt FROM source2.hotels
 ```
-***sub-classes of `source2` LodgingBusiness***
+### Subclasses of `source2` LodgingBusiness
 
-Instead of using the stirng values, we use the magic numbers in the `source2` LodgingBusines to create sub-classes. 
+Instead of using the string values, we use the magic numbers in the `source2` LodgingBusines to create subclasses. 
 
-***`source2` - Hotel***
+*** M12.a `source2` - Hotel***
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:Hotel . 
@@ -207,7 +237,7 @@ data:source2/hotels/{id} a schema:Hotel .
 SELECT * FROM source2.hotels
 WHERE htype = 2
 ```
-***`source2` - BedAndBreakfast***
+***M12.b `source2` - BedAndBreakfast***
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:BedAndBreakfast. 
@@ -217,7 +247,7 @@ data:source2/hotels/{id} a schema:BedAndBreakfast.
 SELECT * FROM source2.hotels
 WHERE htype = 1
 ```
-***`source2` - CampGround***
+***M12.c `source2` - CampGround***
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:Campground . 
@@ -227,7 +257,7 @@ data:source2/hotels/{id} a schema:Campground .
 SELECT * FROM source2.hotels
 WHERE htype = 4
 ```
-***`source2` - LodgingBusiness-accommodation***
+***M13 `source2` - LodgingBusiness-accommodation***
 - Target
 ```sparql
 data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_title}@en , {italian_title}@it , {german_title}@de ; schema:description {german_description}@de , {italian_description}@it ; :numberOfUnits 1 ; schema:containedInPlace data:source1/hospitality/{hotel} ; schema:occupancy data:source2/occupancy/accommodation/{id} . 
@@ -236,7 +266,7 @@ data:source2/accommodation/{id} a schema:Accommodation ; schema:name {english_ti
  ```sql
 SELECT * FROM source2.accommodation
 ```
-***`source2` - RoomOccupancy***
+***M14 `source2` - RoomOccupancy***
 - Target
 ```sparql
 data:source2/occupancy/accommodation/{id} a schema:QuantitativeValue ; schema:maxValue {guest_nb} ; schema:unitCode "C62" . 
@@ -245,9 +275,9 @@ data:source2/occupancy/accommodation/{id} a schema:QuantitativeValue ; schema:ma
  ```sql
 SELECT * FROM source2.accommodation
 ```
-**sub-classes of `source2` Accommodation**
+### Subclasses of `source2` Accommodation
 
-***`source2` - Apartement***
+***M15.a `source2` - Apartement***
 - Target
 ```sparql
 data:source2/accommodation/{id} a schema:Apartment . 
@@ -257,7 +287,7 @@ data:source2/accommodation/{id} a schema:Apartment .
 SELECT * FROM source2.accommodation
 WHERE acco_type = 2
 ```
-***`source2` - Room***
+***M15.b `source2` - Room***
 - Target
 ```sparql
 data:source2/accommodation/{id} a schema:Room . 
@@ -267,7 +297,7 @@ data:source2/accommodation/{id} a schema:Room .
 SELECT * FROM source2.accommodation
 WHERE acco_type = 1
 ```
-***`source2` - CampingPitch***
+***M15.c `source2` - CampingPitch***
 - Target
 ```sparql
 data:source2/accommodation/{id} a schema:CampingPitch . 
@@ -278,20 +308,13 @@ SELECT * FROM source2.accommodation
 WHERE acco_type = 3
 ```
 
-***M9 `source2` - LodgingBusiness-municipalities***
-- Target
-```sparql
-data:source2/hotels/{id} schema:containedInPlace data:municipalities/0{mun} .
-```
-- Source
- ```sql
-SELECT * FROM source2.hotels
-```
-Note: To map `source2` lodging businesses to the corresponding municipalities, we need to and _"0"_ before the ID of the municipalities. In the dataset, when there are missing or misscalculated values, we can modify them in order to create a meaningful relation.  
-
 ## Source 3
 
-***M10 Weather platform***
+Let us now map the third source according to the following diagram: 
+
+<img src="diagrams/weather.png" width="570"/>
+
+***M20 Weather platform***
 - Target
 ```sparql
 data:weather/platform/{id} a :WeatherStation ; schema:name {name} ; geo:defaultGeometry data:geo/weather/platform/{id} . 
@@ -300,7 +323,7 @@ data:weather/platform/{id} a :WeatherStation ; schema:name {name} ; geo:defaultG
  ```sql
 SELECT * FROM source3.weather_platforms
 ```
-***M10 Weather platform - geo***
+***M21 Weather platform - geo***
 - Target
 ```sparql
 data:geo/weather/platform/{id} geo:asWKT {wkt}^^geo:wktLiteral . 
@@ -309,7 +332,10 @@ data:geo/weather/platform/{id} geo:asWKT {wkt}^^geo:wktLiteral .
  ```sql
 SELECT *, st_AsText(pointprojection) AS wkt FROM source3.weather_platforms
 ```
-***M11 Weather observation***
+***M22 Weather observation***
+
+In this ontology, observations are indirectly connected to platforms through a sensor. Although there is no table dedicated to sensors, we will instantiate them out of the `name` and `platform_id` columns of the `source3.weather_measurement` table.
+
 - Target
 ```sparql
 data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} ; sosa:hasResult data:weather/observation/result/{id} . 
@@ -318,7 +344,7 @@ data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ;
  ```sql
 SELECT * FROM source3.weather_measurement
 ```
-***M12 Weather sensor***
+***M23 Weather sensor***
 - Target
 ```sparql
 target		data:weather/sensor/{name}/{platform_id} a sosa:Sensor ; sosa:isHostedBy data:weather/platform/{platform_id} . 
@@ -327,7 +353,7 @@ target		data:weather/sensor/{name}/{platform_id} a sosa:Sensor ; sosa:isHostedBy
  ```sql
 SELECT * FROM source3.weather_measurement
 ```
-***M13 Weather observation result***
+***M24 Weather observation result***
 - Target
 ```sparql
 data:weather/observation/result/{id} a sosa:Result ; qudt:numericValue {double_value} . 
@@ -336,7 +362,10 @@ data:weather/observation/result/{id} a sosa:Result ; qudt:numericValue {double_v
  ```sql
 SELECT * FROM source3.weather_measurement
 ```
-***M13.a Weather observation result degree celius***
+***M25.a Weather observation result degree celius***
+
+For the units, we are using individuals provided by the `qudt-unit` ontology.
+
 - Target
 ```sparql
 data:weather/observation/result/{id} qudt:unit qudt-unit:DegreeCelsius . 
@@ -346,7 +375,7 @@ data:weather/observation/result/{id} qudt:unit qudt-unit:DegreeCelsius .
 SELECT m.id FROM source3.weather_measurement m, source3.measurement_types t
 WHERE m.name = t.name and t.unit = '°C'
 ```
-***M13.b Weather observation result m/s***
+***M25.b Weather observation result m/s***
 - Target
 ```sparql
 data:weather/observation/result/{id} qudt:unit qudt-unit:MeterPerSecond . 
@@ -356,7 +385,7 @@ data:weather/observation/result/{id} qudt:unit qudt-unit:MeterPerSecond .
 SELECT m.id FROM source3.weather_measurement m, source3.measurement_types t
 WHERE m.name = t.name and t.unit = 'm/s'
 ```
-***M14 Measurement property***
+***M26 Measurement property***
 - Target
 ```sparql
 data:measurement/property/{name} a sosa:ObservableProperty ; schema:description {description}@it . 
@@ -365,7 +394,7 @@ data:measurement/property/{name} a sosa:ObservableProperty ; schema:description 
  ```sql
 SELECT * FROM source3.measurement_types
 ```
-***M14.a Wind Speed***
+***M27.a Wind Speed***
 - Target
 ```sparql
 data:measurement/property/{name} a :WindSpeed . 
@@ -375,7 +404,7 @@ data:measurement/property/{name} a :WindSpeed .
 SELECT * FROM source3.measurement_types
 WHERE name = 'wind-speed'
 ```
-***M14.b Water Temperature***
+***M27.b Water Temperature***
 - Target
 ```sparql
 data:measurement/property/{name} a :WaterTemperature . 
