@@ -227,7 +227,7 @@ SELECT *, ST_AsText(geom) AS wkt FROM source2.hotels
 
 Instead of using the string values, we use the magic numbers in the `source2` LodgingBusines to create subclasses. 
 
-*** M12.a `source2` - Hotel***
+***M12.a `source2` - Hotel***
 - Target
 ```sparql
 data:source2/hotels/{id} a schema:Hotel . 
