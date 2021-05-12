@@ -9,7 +9,7 @@ Slides of the tutorial given at the Knowledge Graph Conference (KGC) 2021 can be
 The video of the tutorial is available [here](https://knowledgegraphconference.vhx.tv/kgc-2021/videos/may-3rd-t3-integrating-data-through-virtual-knowledge-graphs-with-ontop-bb71a1dc-c38d-4729-baa0-03917fdd0d99) (subscription or conference ticket required).
 
 ## Requirements
- - Docker
+ - [Docker](https://www.docker.com/)
  - Protégé 5.5 with the Ontop 4.1.0 plugin installed. A bundle is available [here](https://sourceforge.net/projects/ontop4obda/files/ontop-4.1.0/).
  - Optionally [DBeaver](https://dbeaver.io/) or another database tool for visualizing the data source.
 
@@ -52,7 +52,7 @@ git clone https://github.com/ontopic-vkg/destination-tutorial
 docker-compose pull && docker-compose up
 ```
 
-This command starts and initialises the database. Once the database is ready, it launches the SPARQL endpoint of Ontop at http://localhost:8080 .
+This command starts and initializes the database. Once the database is ready, it launches the SPARQL endpoint from Ontop at http://localhost:8080 .
 
 For this tutorial, we assume that the ports 7777 (used for database) and 8080 (used by Ontop) are free. If you need to use different ports, please edit the file `.env`.
 
@@ -172,7 +172,9 @@ The table `source3.measurement_types` contains the name, unit, description and s
 |umidita_abs|	[g/m^3]|	Umidità assoluta dell’aria |	Mean |
 
 ### Optional: visualize it in DBeaver
-To visualize the dataset in DBeaver or a similar tool, the credentials to access the PostgreSQL database are the followings:
+To visualize the dataset in DBeaver or a similar tool, we need to create a database connection. In DBeaver, one can follow the next steps:  *Database* -> *New Database Connection* -> *PostgreSQL*
+
+The credentials to access the PostgreSQL database are the followings:
  - Host: *localhost*
  - Port: 7777
  - User: *postgres*
@@ -191,13 +193,14 @@ For tables in the schema `source3`:
 
 <img src="diagrams/weather.png" width="570"/>
 
-The initial mapping includes already an entry describing municipalities.
+The initial mapping already includes an entry for describing municipalities.
 
 ### Open the project on Protégé
 
 On Protégé, open (in a new window if requested) the ontology file `vkg/dest.ttl`. Go to the *Ontop Mappings* tab (if you don't see it, enable it in *Windows -> Tabs*) and to the *Mapping manager* sub-tab. One mapping entry called *Municipality* should be visible.
 
 If you click of *File -> Save*, your changes will be saved and the Ontop SPARQL endpoint will be automatically restarted.
+
 
 ### Mapping entries
  
@@ -206,9 +209,12 @@ See [the dedicated page](mapping.md) for specifying the mapping entries.
 
 ## Solutions
 
-First, stop the current docker-compose.
+First, stop the current docker-compose:
+```sh
+docker-compose stop
+```
 
-Then
+Then, specify the file by using *-f* : 
 ```sh
 docker-compose -f docker-compose.solution.yml up
 ```
