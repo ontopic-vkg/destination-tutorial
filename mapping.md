@@ -30,7 +30,7 @@ data:municipalities/{istat} schema:name {name_it}@it , {name_de}@de , {name_en}@
 data:municipalities/{istat} geo:defaultGeometry data:geo/municipalities/{istat}. 
 data:municipalities/{istat} schema:geo data:geo/municipalities/{istat} . 
 ```
-Note: To map data properties, we use the data directly from table by using the column names. For the object properties `schema:geo` and `geo:defaultGeometry`, we create a new IRI template by also using the primary key in order to obtain an geometry object that is specific to the municipality.
+Note: To map data properties, we use the data directly from table using the column names. For the object properties `schema:geo` and `geo:defaultGeometry`, we create a new IRI template using the same primary key in order to obtain a geometry object that is specific to the municipality.
 
 Let us now add the other mapping entries by clicking on create:
 
@@ -58,7 +58,7 @@ data:source1/hospitality/{h_id} a schema:LodgingBusiness ; schema:name {name_en}
 SELECT * FROM source1.hospitality
 ```
 
-Observe that we didn't map directly the municipality as the column `m_id`, which refers to the primary key of the municipality. It is not the ID that can be used in the municipality IRI template.
+Observe that we didn't map directly the municipality since the column `m_id`, which refers to the primary key of the municipality, is not the ID that can be used in the municipality IRI template.
 To map it, let us create a new mapping entry.
 
 
@@ -209,9 +209,9 @@ data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {
 SELECT * FROM source2.hotels
 ```
 
-Note that here we have directly mapped the lodging business to the municipality using the ISTAT number (`mun` column). However, this column is an integer, not a string as in `source1.municipalities`. So, we need to include a _0_ before the ID in the IRI template so as to produce the same IRIs.
+Note that here we have directly mapped the lodging business to the municipality using the ISTAT number (`mun` column). However, since this column is an integer, not a string as in `source1.municipalities`, we need to include a _0_ before the ID in the IRI template so as to produce the same IRIs.
 
-The rest of this section is about the second source, which is similar to the previous section. Feel free to skip it and move to the next section, which is about the third source.
+The rest of this section dedicated to the second source is similar to the previous section. Feel free to skip it and move to the next section, which is focusing on the third source.
 
 
 ***M11`source2` - LodgingBusiness-geo***

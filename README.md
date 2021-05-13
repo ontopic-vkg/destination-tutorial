@@ -193,7 +193,7 @@ For tables in the schema `source3`:
 
 <img src="diagrams/weather.png" width="570"/>
 
-The initial mapping already includes an entry for describing municipalities.
+The initial mapping already includes an entry describing municipalities.
 
 ### Open the project on Protégé
 
