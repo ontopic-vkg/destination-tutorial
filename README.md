@@ -191,7 +191,7 @@ For tables in the schemas `source1` and `source2`:
 
 For tables in the schema `source3`:
 
-<img src="diagrams/weather.png" width="570"/>
+<img src="diagrams/sensors.svg" width="800"/>
 
 The initial mapping already includes an entry describing municipalities.
 
