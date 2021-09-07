@@ -141,19 +141,22 @@ PREFIX : <http://destination.example.org/ontology/dest#>
 
 SELECT ?pos (CONCAT(?platformName,' (', str(?value), ?unitSuffix, ' at ', str(?ts) ,')') AS ?posLabel)
 WHERE {
-  ?s a sosa:Platform ;
-     schema:name ?platformName ;
-     geo:defaultGeometry/geo:asWKT ?pos ;
-     sosa:hosts/sosa:madeObservation ?obs .
-  
   ?obs sosa:hasResult ?result ;
        sosa:resultTime ?ts ;
+       sosa:hasFeatureOfInterest ?f ;
        sosa:observedProperty [ a 
-          :WaterTemperature 
-          # :WindSpeed
+          :Temperature 
+          # :Speed
        ] .
   ?result qudt:numericValue ?value ;
           qudt:unit ?unit .
+  
+  ?f geo:defaultGeometry/geo:asWKT ?pos ; 
+     a :OutdoorWater .
+       # :OutdoorAir .
+  
+  ?p sosa:hosts/sosa:madeObservation ?obs ;
+     schema:name ?platformName .
   
   BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', if(?unit = qudt-unit:MeterPerSecond, 'm/s', '')) AS ?unitSuffix)
   
@@ -176,18 +179,16 @@ PREFIX schema: <http://schema.org/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX : <http://destination.example.org/ontology/dest#>
 
-SELECT ?hotelPos ?platformPos ?distance (CONCAT(?hotelName,' (', str(?value), ?unitSuffix, ')') AS ?hotelPosLabel) ("chlorophyll,0.5" AS ?platformPosColor)
+SELECT ?hotelPos ?wPos ?distance (CONCAT(?hotelName,' (', str(?value), ?unitSuffix, ')') AS ?hotelPosLabel) ("chlorophyll,0.5" AS ?wPosColor)
 WHERE {
-  ?s a sosa:Platform ;
-     geo:defaultGeometry/geo:asWKT ?platformPos ;
-     sosa:hosts/sosa:madeObservation ?obs .
-
   ?obs sosa:hasResult ?result ;
-       sosa:observedProperty [ a :WaterTemperature ] .
+       sosa:hasFeatureOfInterest ?f ;
+       sosa:observedProperty [ a :Temperature ] .
 
   ?result qudt:numericValue ?value ;
           qudt:unit ?unit .
-
+  
+  ?f a :OutdoorWater ; geo:defaultGeometry/geo:asWKT ?wPos .
 
   BIND (if(?unit = qudt-unit:DegreeCelsius, '°C', if(?unit = qudt-unit:MeterPerSecond, 'm/s', '')) AS ?unitSuffix)
   FILTER (?value >= 18)
@@ -200,7 +201,7 @@ WHERE {
   FILTER (langMatches(lang(?hotelName), 'en'))
   
 
- BIND(geof:distance(?hotelPos, ?platformPos, uom:metre) AS ?distance)
+ BIND(geof:distance(?hotelPos, ?wPos, uom:metre) AS ?distance)
  FILTER (?distance < 2000) 
 }
 """
@@ -208,9 +209,8 @@ WHERE {
 
 [[tabGroups.tabs]]
 
-name="Restaurants nearby water above 18°C (featureOfInterest)"
+name="Restaurants nearby water above 18°C"
 query="""
-PREFIX so: <http://purl.org/ontology/symbolic-music/>
 PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
 PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 PREFIX sosa: <http://www.w3.org/ns/sosa/>
@@ -223,17 +223,12 @@ PREFIX qudt: <http://qudt.org/schema/qudt#>
 PREFIX qudt-unit: <http://qudt.org/vocab/unit#>
 
 
-SELECT ?hPos ?hPosLabel ?pPos ?pPosLabel ?v ?t
+SELECT ?hPos ?hPosLabel ?pPos ?pPosLabel ("jet,0.8" AS ?pPosColor) ?v ?t
 WHERE {
   # Hotel
   ?h a schema:Hotel ; geo:defaultGeometry/geo:asWKT ?hPos ; schema:name ?hPosLabel .
   FILTER(LANG(?hPosLabel)='it')
-  BIND('red' AS ?hPosColor)
-  # Platforms
-  ?p a sosa:Platform ; schema:name ?pPosLabel .
-  BIND('blue' AS ?sPosColor)
   # Observations
-  ?p sosa:hosts/sosa:madeObservation ?o .
   ?o a sosa:Observation .
   ?o sosa:hasResult ?r ; sosa:resultTime ?t ; sosa:hasFeatureOfInterest ?f ; sosa:observedProperty ?prop.
   ?prop  a :Temperature .
@@ -242,11 +237,14 @@ WHERE {
   ?f a :OutdoorWater ; geo:defaultGeometry/geo:asWKT ?pPos .
   # Max spatial distance
   BIND(geof:distance(?hPos, ?pPos, uom:metre) AS ?distance)
-  FILTER (?distance <= 1000)
+  FILTER (?distance <= 2000)
   
   # Min temperature
   FILTER (?v > 18)
+  
+  # Platform label
+  ?p a sosa:Platform ; schema:name ?pPosLabel .
+  ?p sosa:hosts/sosa:madeObservation ?o .
 
 }
-LIMIT 5
 """

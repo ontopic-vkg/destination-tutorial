@@ -132,19 +132,19 @@ source		SELECT * FROM source2.accommodation
 			WHERE acco_type = 3
 
 mappingId	Platform
-target		data:platform/{id} a sosa:Platform ; schema:name {name} ; geo:defaultGeometry data:geo/platform/{id} . 
+target		data:weather/platform/{id} a sosa:Platform ; schema:name {name} ; geo:defaultGeometry data:geo/weather/platform/{id} . 
 source		select * from source3.weather_platforms
 
 mappingId	Platform geo
-target		data:geo/platform/{id} geo:asWKT {wkt}^^geo:wktLiteral . 
+target		data:geo/weather/platform/{id} geo:asWKT {wkt}^^geo:wktLiteral . 
 source		select *, st_AsText(pointprojection) AS wkt from source3.weather_platforms
 
 mappingId	Observation
-target		data:observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} ; sosa:hasResult data:observation/result/{id} . 
+target		data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} ; sosa:hasResult data:weather/observation/result/{id} . 
 source		select * from source3.weather_measurement
 
 mappingId	Sensor
-target		data:sensor/{name}/{platform_id} a sosa:Sensor ; sosa:isHostedBy data:platform/{platform_id} . 
+target		data:weather/sensor/{name}/{platform_id} a sosa:Sensor ; sosa:isHostedBy data:weather/platform/{platform_id} . 
 source		select * from source3.weather_measurement
 
 mappingId	Measurement property
@@ -162,36 +162,36 @@ source		select * from source3.measurement_types
 			where name = 'water-temperature'
 
 mappingId	Observation result
-target		data:observation/result/{id} a sosa:Result ; qudt:numericValue {double_value} . 
+target		data:weather/observation/result/{id} a sosa:Result ; qudt:numericValue {double_value} . 
 source		select * from source3.weather_measurement
 
 mappingId	Observation result degree celius
-target		data:observation/result/{id} qudt:unit qudt-unit:DegreeCelsius . 
+target		data:weather/observation/result/{id} qudt:unit qudt-unit:DegreeCelsius . 
 source		select m.id from source3.weather_measurement m, source3.measurement_types t
 			WHERE m.name = t.name and t.unit = '°C'
 
 mappingId	Observation result m/s
-target		data:observation/result/{id} qudt:unit qudt-unit:MeterPerSecond . 
+target		data:weather/observation/result/{id} qudt:unit qudt-unit:MeterPerSecond . 
 source		select m.id from source3.weather_measurement m, source3.measurement_types t
 			WHERE m.name = t.name and t.unit = 'm/s'
 
 mappingId	Feature of Interest
-target		data:featureOfInterest/{platform_id}/{name} a sosa:FeatureOfInterest .
+target		data:weather/featureOfInterest/{platform_id}/{name} a sosa:FeatureOfInterest .
 source		select * from source3.weather_measurement
 
 mappingId	Feature of Interest -  observation
-target		data:observation/{id} sosa:hasFeatureOfInterest data:featureOfInterest/{platform_id}/{name} .
+target		data:weather/observation/{id} sosa:hasFeatureOfInterest data:weather/featureOfInterest/{platform_id}/{name} .
 source		select * from source3.weather_measurement
 
 mappingId	Feature of Interest - geo
-target		data:featureOfInterest/{platform_id}/{name} geo:defaultGeometry data:geo/platform/{platform_id} .
+target		data:weather/featureOfInterest/{platform_id}/{name} geo:defaultGeometry data:geo/weather/platform/{platform_id} .
 source		select * from source3.weather_measurement
 
 mappingId	Outdoor water
-target		data:featureOfInterest/{platform_id}/{name} a :OutdoorWater .
+target		data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorWater .
 source		select * from source3.weather_measurement WHERE name IN ('water-temperature')
 
 mappingId	Outdoor air
-target		data:featureOfInterest/{platform_id}/{name} a :OutdoorAir .
+target		data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorAir .
 source		select * from source3.weather_measurement WHERE name IN ('wind-direction', 'wind-speed', 'wind10m_direction', 'wind10m_speed')
 ]]
