@@ -317,7 +317,7 @@ Let us now map the third source according to the following diagram:
 ***M20 Weather platform***
 - Target
 ```sparql
-data:weather/platform/{id} a :WeatherStation ; schema:name {name} ; geo:defaultGeometry data:geo/weather/platform/{id} . 
+data:weather/platform/{id} a sosa:Platform ; schema:name {name} ; geo:defaultGeometry data:geo/weather/platform/{id} . 
 ```
 - Source
  ```sql
@@ -338,7 +338,7 @@ In this ontology, observations are indirectly connected to platforms through a s
 
 - Target
 ```sparql
-data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} ; sosa:hasResult data:weather/observation/result/{id} . 
+data:weather/observation/{id} a sosa:Observation ; sosa:resultTime {timestamp} ; sosa:madeBySensor data:weather/sensor/{name}/{platform_id} ; sosa:observedProperty data:measurement/property/{name} ; sosa:hasResult data:weather/observation/result/{id} ; sosa:hasFeatureOfInterest data:weather/featureOfInterest/{platform_id}/{name} .
 ```
 - Source
  ```sql
@@ -413,4 +413,35 @@ data:measurement/property/{name} a :WaterTemperature .
  ```sql
 SELECT * FROM source3.measurement_types
 WHERE name = 'water-temperature'
+```
+
+***M28.a Feature of interest geometry ***
+- Target
+```sparql
+data:weather/featureOfInterest/{platform_id}/{name} geo:defaultGeometry data:geo/weather/platform/{platform_id} .
+```
+- Source
+ ```sql
+select * from source3.weather_measurement
+```
+
+Note that here we simply reused the geometry of the platform.
+
+
+***M28.b Outdoor water (feature of interest) ***
+- Target
+```sparql
+data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorWater .```
+- Source
+ ```sql
+select * from source3.weather_measurement WHERE name IN ('water-temperature')
+```
+
+***M28.c Outdoor air (feature of interest) ***
+- Target
+```sparql
+data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorAir .```
+- Source
+ ```sql
+select * from source3.weather_measurement WHERE name IN ('wind-direction', 'wind-speed', 'wind10m_direction', 'wind10m_speed')
 ```
