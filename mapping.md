@@ -312,7 +312,7 @@ WHERE acco_type = 3
 
 Let us now map the third source according to the following diagram: 
 
-<img src="diagrams/weather.png" width="570"/>
+<img src="diagrams/sensors.svg" width="800"/>
 
 ***M20 Weather platform***
 - Target
