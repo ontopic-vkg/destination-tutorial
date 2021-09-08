@@ -334,7 +334,7 @@ SELECT *, st_AsText(pointprojection) AS wkt FROM source3.weather_platforms
 ```
 ***M22 Weather observation***
 
-In this ontology, observations are indirectly connected to platforms through a sensor. Although there is no table dedicated to sensors, we will instantiate them out of the `name` and `platform_id` columns of the `source3.weather_measurement` table.
+In this ontology, observations are indirectly connected to platforms through a sensor. Although there is no table dedicated to sensors, we will instantiate them out of the `name` and `platform_id` columns of the `source3.weather_measurement` table. From an observation, one can get the result (its value and its unit), the result time, the observed property (e.g. temperature) and the feature of interest (e.g. outdoor air at given location).
 
 - Target
 ```sparql
