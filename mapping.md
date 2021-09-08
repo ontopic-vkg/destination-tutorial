@@ -431,7 +431,8 @@ Note that here we simply reused the geometry of the platform.
 ***M28.b Outdoor water (feature of interest)***
 - Target
 ```sparql
-data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorWater .```
+data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorWater .
+```
 - Source
  ```sql
 select * from source3.weather_measurement WHERE name IN ('water-temperature')
@@ -440,7 +441,8 @@ select * from source3.weather_measurement WHERE name IN ('water-temperature')
 ***M28.c Outdoor air (feature of interest)***
 - Target
 ```sparql
-data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorAir .```
+data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorAir .
+```
 - Source
  ```sql
 select * from source3.weather_measurement WHERE name IN ('wind-direction', 'wind-speed', 'wind10m_direction', 'wind10m_speed')
