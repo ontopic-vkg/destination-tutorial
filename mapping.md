@@ -415,7 +415,7 @@ SELECT * FROM source3.measurement_types
 WHERE name = 'water-temperature'
 ```
 
-***M28.a Feature of interest geometry ***
+***M28.a Feature of interest geometry***
 - Target
 ```sparql
 data:weather/featureOfInterest/{platform_id}/{name} geo:defaultGeometry data:geo/weather/platform/{platform_id} .
@@ -428,7 +428,7 @@ select * from source3.weather_measurement
 Note that here we simply reused the geometry of the platform.
 
 
-***M28.b Outdoor water (feature of interest) ***
+***M28.b Outdoor water (feature of interest)***
 - Target
 ```sparql
 data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorWater .```
@@ -437,7 +437,7 @@ data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorWater .```
 select * from source3.weather_measurement WHERE name IN ('water-temperature')
 ```
 
-***M28.c Outdoor air (feature of interest) ***
+***M28.c Outdoor air (feature of interest)***
 - Target
 ```sparql
 data:weather/featureOfInterest/{platform_id}/{name} a :OutdoorAir .```
