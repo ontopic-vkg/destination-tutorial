@@ -68,12 +68,31 @@ PREFIX schema: <http://schema.org/>
 PREFIX geo: <http://www.opengis.net/ont/geosparql#>
 PREFIX : <http://noi.example.org/ontology/odh#>
 
-SELECT ?h ?pos ?posLabel
+SELECT ?h ?pos ?posLabel ?posColor
 WHERE {
   ?h a schema:LodgingBusiness ;
      geo:defaultGeometry/geo:asWKT ?pos ;
      schema:name ?posLabel .
   #?h schema:containedInPlace/schema:name "Bozen"@de . # Uncomment for restricting to a municipality
+
+  # Colors
+  OPTIONAL {
+    ?h a schema:Campground .
+    BIND("chlorophyll,0.5" AS ?posColor) # Green
+  }
+  OPTIONAL {
+    ?h a schema:BedAndBreakfast .
+    BIND("viridis,0.1" AS ?posColor) # Purple
+  }
+  OPTIONAL {
+    ?h a schema:Hotel .
+    BIND("jet,0.3" AS ?posColor) # Light blue
+  }
+  OPTIONAL {
+    ?h a schema:Hostel .
+    BIND("jet,0.8" AS ?posColor) # Red
+  }
+
   FILTER (lang(?posLabel) = 'de')
 }
 LIMIT 500
