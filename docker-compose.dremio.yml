@@ -12,7 +12,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres2
   ontop:
-    image: ontop/ontop-endpoint:4.2-SNAPSHOT
+    image: ontop/ontop-endpoint:4.2
     env_file: .env
     restart: unless-stopped
     environment:
