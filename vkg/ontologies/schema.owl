@@ -7,6 +7,11 @@
      xmlns:xml="http://www.w3.org/XML/1998/namespace"
      xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
      xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:void="http://rdfs.org/ns/void#"
+     xmlns:dcat="http://www.w3.org/ns/dcat#"
+     xmlns:foaf="http://xmlns.com/foaf/0.1/"
+     xmlns:dcmitype="http://purl.org/dc/dcmitype/"
+     xmlns:bibo="http://purl.org/ontology/bibo/"
      xmlns:schema="http://schema.org/">
     <owl:Ontology rdf:about="https://schema.org/version/latest/schemaorg-current-http.rdf"/>
     
