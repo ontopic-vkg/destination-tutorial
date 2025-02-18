@@ -12,7 +12,7 @@ services:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=postgres2
   ontop:
-    image: ontop/ontop:5.1.2
+    image: ontop/ontop
     env_file: .env
     restart: unless-stopped
     environment:
@@ -22,8 +22,9 @@ services:
       ONTOP_PROPERTIES_FILE: /opt/ontop/input/dest.docker.properties
       ONTOP_PORTAL_FILE: /opt/ontop/input/dest.portal.toml
       ONTOP_CORS_ALLOWED_ORIGINS: "*"
-      ONTOP_DEV_MODE: "true"
-      ONTOP_DEBUG: "true"
+      ONTOP_DEV_MODE: true
+      ONTOP_LOG_LEVEL: debug
+
     volumes:
       - ./vkg:/opt/ontop/input
       - ./jdbc:/opt/ontop/jdbc
