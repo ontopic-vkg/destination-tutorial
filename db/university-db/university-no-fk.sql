@@ -1,9 +1,9 @@
 -- PostgreSQL dump of university database
-DROP DATABASE IF EXISTS university-no-fk;
+DROP DATABASE IF EXISTS "university-no-fk";
 
-CREATE DATABASE university-no-fk;
+CREATE DATABASE "university-no-fk";
 
-\connect university-no-fk
+\connect "university-no-fk"
 
 DROP SCHEMA IF EXISTS uni1;
 

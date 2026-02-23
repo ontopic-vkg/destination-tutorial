@@ -1,9 +1,9 @@
 -- PostgreSQL dump of university database
-DROP DATABASE IF EXISTS university-no-pk;
+DROP DATABASE IF EXISTS "university-no-pk";
 
-CREATE DATABASE university-no-pk;
+CREATE DATABASE "university-no-pk";
 
-\connect university-no-pk
+\connect "university-no-pk"
 
 DROP SCHEMA IF EXISTS uni1;
 
@@ -172,14 +172,3 @@ INSERT INTO uni2.registration(pid, cid) VALUES
 
 CREATE INDEX registration_pid_idx ON uni2.registration(pid);
 CREATE INDEX registration_cid_idx ON uni2.registration(cid);
-
--- Add foreign key constraints
-ALTER TABLE uni2.course ADD CONSTRAINT fk_course_lecturer FOREIGN KEY(lecturer) REFERENCES uni2.person(pid);
-ALTER TABLE uni2.course ADD CONSTRAINT fk_course_lab_teacher FOREIGN KEY(lab_teacher) REFERENCES uni2.person(pid);
-ALTER TABLE uni2.registration ADD CONSTRAINT fk_registration_pid FOREIGN KEY(pid) REFERENCES uni2.person(pid);
-ALTER TABLE uni2.registration ADD CONSTRAINT fk_registration_cid FOREIGN KEY(cid) REFERENCES uni2.course(cid);
-
-ALTER TABLE uni1.teaching ADD CONSTRAINT fk_teaching_a_id FOREIGN KEY(a_id) REFERENCES uni1.academic(a_id);
-ALTER TABLE uni1.teaching ADD CONSTRAINT fk_teaching_c_id FOREIGN KEY(c_id) REFERENCES uni1.course(c_id);
-ALTER TABLE uni1.course_registration ADD CONSTRAINT fk_course_reg_c_id FOREIGN KEY(c_id) REFERENCES uni1.course(c_id);
-ALTER TABLE uni1.course_registration ADD CONSTRAINT fk_course_reg_s_id FOREIGN KEY(s_id) REFERENCES uni1.student(s_id);
