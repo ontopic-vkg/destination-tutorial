@@ -86,8 +86,8 @@ source		SELECT * FROM source1.rooms
 			WHERE r_type = 'pitch'
 
 mappingId	Source 2 - lodging business
-target		data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/0{mun} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} . 
-source		SELECT * FROM source2.hotels
+target		data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/{mun_prepended} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} . 
+source		SELECT *, CONCAT('0', mun) as mun_prepended FROM source2.hotels
 
 mappingId	Source 2 lodging business geo
 target		data:source2/geo/hotels/{id} a schema:GeoCoordinates ; schema:longitude {long} ; schema:latitude {lat} ; schema:elevation {alt} ; geo:asWKT {wkt}^^geo:wktLiteral . 

@@ -1,4 +1,6 @@
-FROM postgis/postgis:13-3.3-alpine
+FROM imresamu/postgis:18-3.6-alpine
 COPY *.sql /docker-entrypoint-initdb.d/
 COPY *.sql.gz /docker-entrypoint-initdb.d/
+COPY ./university-db/*.sql.gz /docker-entrypoint-initdb.d/
+COPY ./university-db/*.sql /docker-entrypoint-initdb.d/
 USER postgres

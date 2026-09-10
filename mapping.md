@@ -202,14 +202,16 @@ It uses the same diagram as the first source.
 
 - Target
 ```sparql
-data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/0{mun} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} .
+data:source2/hotels/{id} a schema:LodgingBusiness ; schema:name {english}@en , {italian}@it , {german}@de ; schema:containedInPlace data:municipality/{mun_prepended} ; schema:geo data:source2/geo/hotels/{id} ; geo:defaultGeometry data:source2/geo/hotels/{id} .
 ```
 - Source
  ```sql
-SELECT * FROM source2.hotels
+SELECT *, CONCAT('0', mun) as mun_prepended FROM source2.hotels
 ```
 
-Note that here we have directly mapped the lodging business to the municipality using the ISTAT number (`mun` column). However, since this column is an integer, not a string as in `source1.municipalities`, we need to include a _0_ before the ID in the IRI template so as to produce the same IRIs.
+Note that here we have directly mapped the lodging business to the municipality using the ISTAT number (`mun` column). However, since this column is an integer, not a string as in `source1.municipalities`, we need to prepend a _0_ to the ID first to produce the same IRIs.
+
+One simple way to achieve this is to use the `CONCAT` function in the source query. This way, we can use the same mapping template as we did earlier, to produce the IRI.
 
 The rest of this section dedicated to the second source is similar to the previous section. Feel free to skip it and move to the next section, which is focusing on the third source.
 

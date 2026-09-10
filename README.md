@@ -94,9 +94,9 @@ Similarly, the table `source1.rooms` contains the ID, name, number of units, max
 
 | r_id | name_en  | name_it | name_de | room_units | type | guest_nb | description_de | description_it | h_id | 
 | ---- | -------- | ------- | ------- | --------- | ---- | ------------ | ---------------| -------------- | -------- |
-| E4B47698C5A67758 4245B6F4E13CCB69 |	Appartement "PANORMASUITE" |	Apartment "Panoramasuite" |	Appartamento "PANORMASUITE" |	1	| apartment	| 4 |	Natursuite mit Schlafempore...|	Suite con area notte al piano superiore... |	32001C4FAA1311D1 926F00805A150B0B |
-| AF57632D700A11D3 962F00104B421FA8 |	"Crab apple" |	"Zierapfel" |	"Mela selvatica" |	1 |	apartment |	6 |	Wohnraum mit Kochnische... |	Stanza di soggiorno con cucina...|	E650C0C33DC111D2 9536004F56000ECA |
-| 65F7D5D3182D4300 A42E23D60F836F61 |	apartment Sella for 5-6 people |	Ferienwohnung Sella für 5-6 Personen |	Appartamento Sella per 5-6 persone |	1	| apartment |	6 |	Ferienwohnung 5 Personen |	Appartamento 5 persone |	8DA75A1A0AE743B4 89948BA98ECA30A9 |
+| E4B47698C5A67758 4245B6F4E13CCB69 |	Appartement "PANORMASUITE" |	Appartamento "PANORMASUITE" |	Apartment "Panoramasuite" |	1	| apartment	| 4 |	Natursuite mit Schlafempore...|	Suite con area notte al piano superiore... |	32001C4FAA1311D1 926F00805A150B0B |
+| AF57632D700A11D3 962F00104B421FA8 |	"Crab apple" |	"Mela selvatica" |	"Zierapfel" |	1 |	apartment |	6 |	Wohnraum mit Kochnische... |	Stanza di soggiorno con cucina...|	E650C0C33DC111D2 9536004F56000ECA |
+| 65F7D5D3182D4300 A42E23D60F836F61 |	apartment Sella for 5-6 people |	Appartamento Sella per 5-6 persone |	Ferienwohnung Sella für 5-6 Personen |	1	| apartment |	6 |	Ferienwohnung 5 Personen |	Appartamento 5 persone |	8DA75A1A0AE743B4 89948BA98ECA30A9 |
 
 The column _type_ is also populated with the following datatypes: _Room, Appartement, Pitch, Youth_.
 
